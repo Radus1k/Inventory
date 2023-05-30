@@ -74,3 +74,7 @@ def add_element(request, entity_id, building_id, floor_id, room_id):
 @login_required
 def home_view(request):
      return render(request, 'inventory_app/home.html', context={})
+
+@login_required
+def dashboard_view(request):
+     return render(request, 'inventory_app/dashboard.html', context={})
