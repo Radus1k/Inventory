@@ -44,7 +44,15 @@ INSTALLED_APPS = [
 
     # vendor apps
     'bootstrap5',
+    'django_select2',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AUTH_USER_MODEL = 'accounts.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,9 +87,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'inventory.wsgi.application'
 
 LOGIN_REDIRECT_URL ='/'
-LOGOUT_REDIRECT_URL  ='accounts:log_in'
-LOGIN_URL ='/accounts/log-in/'
-
+LOGOUT_REDIRECT_URL  ='accounts:login'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -93,6 +101,21 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "my_cache_table",
+    },
+    "select2": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    },
+}
+# Tell select2 which cache configuration to use:
+SELECT2_CACHE_BACKEND = "select2"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -124,30 +147,15 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = 'assets/'
-STATIC_ROOT = os.path.join(CONTENT_DIR, 'assets')
-
-STATICFILES_DIRS = [
-    os.path.join(CONTENT_DIR, 'static'),
-]
-
-# STATICFILES_DIRS = [
-#     os.path.join(CONTENT_DIR, 'assets'),
-# ]
-
 STATIC_ROOT = os.path.join(CONTENT_DIR, 'static')
 STATIC_URL = '/assets/'
-
-print(STATIC_ROOT + STATIC_URL)
 
 STATICFILES_DIRS = [
     os.path.join(CONTENT_DIR, 'assets'),
 ]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

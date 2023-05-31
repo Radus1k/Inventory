@@ -1,9 +1,23 @@
-<!-- accounts/templates/accounts/signup.html -->
 
-<h2>Sign Up</h2>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
-<form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Sign Up</button>
-</form>
+{% bootstrap_messages %}
+
+<div class="content">
+<div class="d-flex justify-content-center align-items-center text-center" style="min-height: 100vh; background-color:#1e1e2f;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="text-center">
+            <img src="{% static 'vendor/img/ready-stock.png' %}" style="width:100px;" alt="Description of the image">
+            <h4 class="card-title mt-4" style="color:white;">Inventory Management</h4>
+        </div>
+        <div class="card-body">
+            {% bootstrap_form form %}
+            <button class="btn btn-primary btn-block" style="background-color: #e14eca;" type="submit">Sign Up</button>
+        </div>
+    </form>
+</div>
+</div>

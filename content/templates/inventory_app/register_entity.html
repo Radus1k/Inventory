@@ -1,11 +1,8 @@
-{% extends 'default.html' %}
+{% extends 'base_dashboard.html' %}
 
 {% load static %}
 
-{# Load the tag library #}
 {% load bootstrap5 %}
-
-{# Load CSS and JavaScript #}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 
@@ -13,10 +10,26 @@
 {% bootstrap_messages %}
 {% block content %}
 
-<form method="post">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <button type="submit">Register Entity</button>
-  </form>
+  <div class="content">
+    <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Register Entity</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" style="overflow:auto;">
+              <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button class="btn btn-primary" type="submit">Register Entity</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
 {% endblock %}

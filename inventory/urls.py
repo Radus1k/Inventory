@@ -24,8 +24,10 @@ urlpatterns = [
     path('', include('main.urls')),
     path('api/', include('api.urls')),
     path('', include('accounts.urls')),
+    path("select2/", include("django_select2.urls")),
     # Add other URLs as per your requirements
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.CONTENT_DIR)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
