@@ -22,7 +22,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('api/', include('api.urls')),
+    path('', include('api.urls')),
     path('', include('accounts.urls')),
     path("select2/", include("django_select2.urls")),
     # Add other URLs as per your requirements

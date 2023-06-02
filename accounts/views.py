@@ -20,7 +20,6 @@ def signup_view(request):
     return render(request, 'signup.html', {'form': form})
 
 def login_view(request):
-    print("logggin view")
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():

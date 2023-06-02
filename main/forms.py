@@ -1,21 +1,24 @@
 from django import forms
-from .models import Institute, Building, Floor, Room, Element
+from .models import Entity, Building, Floor, Room, Element
 from django_select2.forms import Select2Widget
+from django.views.generic import UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Entity
 
 ### Base Form Classes 
 class EntityForm(forms.ModelForm):
     class Meta:
-        model = Institute
+        model = Entity
         fields = ['name']
-        # Add other fields specific to the Institute model
+        # Add other fields specific to the entity model
 
 class BuildingForm(forms.ModelForm):
   class Meta:
         model = Building
-        fields = ['name','description', 'institute']
+        fields = ['name','description', 'entity']
         # Add other fields specific to the Building model
         widgets = {
-            'institute': Select2Widget(attrs={
+            'entity': Select2Widget(attrs={
                 'class': 'form-control',
                 'style': 'background-color: #e14eca;'  # Example styling, modify as needed
             }),
@@ -55,7 +58,6 @@ class ElementForm(forms.ModelForm):
                 'style': 'width: 100%; background-color: #e14eca;'  # Example styling, modify as needed
             }),
         }
-
 
 
 

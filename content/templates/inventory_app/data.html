@@ -10,63 +10,28 @@
 
 <div class="content" style="margin-left:2%;">
     {% bootstrap_messages %}
-    <h1 class="mt-4">Element List</h1>
-    <a href="{% url 'add_entity' %}" class="btn btn-primary">Add Entity</a>
-    {% for institute in institutes %}
- 
-    <div class="mt-4">
-        <h2>Institute: {{ institute.name }}</h2>
-        <a href="{% url 'add_element' institute.id %}" class="btn btn-primary">Add Element</a>
-        <a href="{% url 'add_room' institute.id %}" class="btn btn-primary">Add Room</a>
-        <a href="{% url 'add_floor' institute.id %}" class="btn btn-primary">Add Floor</a>
-        <a href="{% url 'add_building' institute.id %}" class="btn btn-primary">Add Building</a>
-        {% if institute.building_set.all %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Building</th>
-                    <th>Floor</th>
-                    <th style="font-size:20px;"><strong>Element Name</strong></th>
-                    <th>QR Code</th>
-                    <th>fa</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for building in institute.building_set.all %}
-                    {% for floor in building.floor_set.all %}
-                        {% for room in floor.room_set.all %}
-                            {% if room.element_set.all %}
-                                {% for element in room.element_set.all %}
-                                <tr>
-                                    <td>{{ building.name }}</td>
-                                    <td>{{ floor.number }}</td>
-                                    <td><strong>{{ element.name }}</strong></td>
-                                    <td><img src="{{ element.qr_code_image.url }}" style="width:50px;" alt="QR Code"></td>
-                                    <td><a href="{% url 'delete_element' element.id %}"><img src="{% static 'vendor/img/icons8-delete.svg' %}" alt="Delete"></td>
-                                </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td>{{ building.name }}</td>
-                                    <td>{{ floor.number }}</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                            {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p>No elements yet.</p>
-        {% endif %}
+
+    {% if all_entities %}
+    <div class="col-sm-6">
+        <div class="btn-group btn-group-toggle float-right">
+            {% for entity in all_entities %}
+            <a href="{% url 'data' entity.id %}">
+                <label class="btn btn-sm btn-primary btn-simple {% if entity.id == entity_with_most_elements.id  %} active {% endif %}
+                {% if entity.id == entity_id  %} active {% endif %}
+                    " id="{{ forloop.counter }}" style="pointer-events: auto;">
+                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" style="font-size:2vh;">{{ entity.name }}</span>
+                </label>
+             </a>
+            {% endfor %}
+        </div>
     </div>
-    {% empty %}
-    <p>No institutes found.</p>
-    {% endfor %}
-</div>
+    {% endif %}
+
+
+    {% include 'inventory_app/one_entity_data.html' %}
+
+    {% comment %} <h4 class="card-title mt-4" style="color:white; padding-top:5vh;">
+        <a href="{% url 'add_entity' %}" class="btn btn-primary">Add Entity</a>
+    </h4> {% endcomment %}
 
 {% endblock %}
-

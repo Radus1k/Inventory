@@ -1,7 +1,13 @@
+# serializers.py
 from rest_framework import serializers
-from .models import QRCode
+from main.models import Room, Element
 
-class QRCodeSerializer(serializers.ModelSerializer):
+class RoomSerializer(serializers.ModelSerializer):
     class Meta:
-        model = QRCode
+        model = Room
+        fields = '__all__'
+
+class ElementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Element
         fields = '__all__'

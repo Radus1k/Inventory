@@ -23,6 +23,8 @@ CONTENT_DIR = os.path.join(BASE_DIR, "content")
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-g#imuzp8^)54hv)jtpr+&m1r5f#e%brd-r%m@nrnl45u6a*bt('
 
+SITE_URL = 'http://localhost:8000'  # Or your production site URL
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

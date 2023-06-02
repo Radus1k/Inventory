@@ -13,31 +13,6 @@
                     <h5 class="card-category">Total Elements</h5>
                     <h2 class="card-title">Stats</h2>
                   </div>
-                  <div class="col-sm-6">
-                    <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                      <label class="btn btn-sm btn-primary btn-simple active" id="0">
-                        <input type="radio" name="options" checked>
-                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Entities</span>
-                        <span class="d-block d-sm-none">
-                          <i class="tim-icons icon-single-02"></i>
-                        </span>
-                      </label>
-                      <label class="btn btn-sm btn-primary btn-simple" id="1">
-                        <input type="radio" class="d-none d-sm-none" name="options">
-                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">History</span>
-                        <span class="d-block d-sm-none">
-                          <i class="tim-icons icon-gift-2"></i>
-                        </span>
-                      </label>
-                      <label class="btn btn-sm btn-primary btn-simple" id="2">
-                        <input type="radio" class="d-none" name="options">
-                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Sessions</span>
-                        <span class="d-block d-sm-none">
-                          <i class="tim-icons icon-tap-02"></i>
-                        </span>
-                      </label>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div class="card-body">
@@ -53,7 +28,7 @@
             <div class="card card-chart">
               <div class="card-header">
                 <h5 class="card-category">Total Inventory Elements</h5>
-                <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> 763,215</h3>
+                <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> {{ total_elements }} </h3>
               </div>
               <div class="card-body">
                 <div class="chart-area">
@@ -66,7 +41,7 @@
             <div class="card card-chart">
               <div class="card-header">
                 <h5 class="card-category">Total Rooms</h5>
-                <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> 3,500</h3>
+                <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i>{{ total_rooms }}</h3>
               </div>
               <div class="card-body">
                 <div class="chart-area">
@@ -94,7 +69,6 @@
             <div class="card card-tasks">
               <div class="card-header ">
                 <h6 class="title d-inline">Tasks(5)</h6>
-                <p class="card-category d-inline">today</p>
                 <div class="dropdown">
                   <button type="button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown">
                     <i class="tim-icons icon-settings-gear-63"></i>
@@ -107,7 +81,7 @@
                 </div>
               </div>
               <div class="card-body ">
-                <div class="table-full-width table-responsive">
+                <div class="table-full-width table-responsive" style="overflow:hidden;">
                   <table class="table">
                     <tbody>
                       <tr>
@@ -243,138 +217,45 @@
             </div>
           </div>
           <div class="col-lg-6 col-md-12">
-            <div class="card ">
+            <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Last Added Elements</h4>
+                <h4 class="card-title">Last Added Elements</h4>
               </div>
               <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table tablesorter " id="">
-                    <thead class=" text-primary">
+                <div class="table-responsive" style="overflow:hidden;">
+                  <table class="table tablesorter" id="">
+                    <thead class="text-primary">
                       <tr>
-                        <th>
-                          Name
-                        </th>
-                        <th>
-                          Entity
-                        </th>
-                        <th>
-                          Building
-                        </th>
-                        <th class="text-center">
-                          Room
-                        </th>
-                        <th class="text-center">
-                          See QR code
-                        </th>
+                        <th>Name</th>
+                        <th>Inserted at</th>
+                        <th>Entity</th>
+                        <th>Building</th>
+                        <th class="text-center">Room</th>
+                        <th class="text-center">See QR code</th>
                       </tr>
                     </thead>
                     <tbody>
+                      {% for element in last_5_elements %}
                       <tr>
-                        <td>
-                          Dakota Rice
-                        </td>
-                        <td>
-                          Niger
-                        </td>
-                        <td>
-                          Oud-Turnhout
-                        </td>
+                        <td>{{ element.name }}</td>
+                        <td>{{ element.inserted_at }}</td>
+                        <td>{{ element.room.floor.building.entity.name }}</td>
+                        <td>{{ element.room.floor.building.name }}</td>
+                        <td class="text-center">{{ element.room.name }}</td>
                         <td class="text-center">
-                          $36,738
+                          <a href="{{ element.qr_code_image.url }}" target="_blank">
+                            <img src="{{ element.qr_code_image.url }}" alt="QR Code" style="width: 50px; height: 50px;">
+                          </a>
                         </td>
                       </tr>
-                      <tr>
-                        <td>
-                          Minerva Hooper
-                        </td>
-                        <td>
-                          Curaçao
-                        </td>
-                        <td>
-                          Sinaai-Waas
-                        </td>
-                        <td class="text-center">
-                          $23,789
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Sage Rodriguez
-                        </td>
-                        <td>
-                          Netherlands
-                        </td>
-                        <td>
-                          Baileux
-                        </td>
-                        <td class="text-center">
-                          $56,142
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Philip Chaney
-                        </td>
-                        <td>
-                          Korea, South
-                        </td>
-                        <td>
-                          Overland Park
-                        </td>
-                        <td class="text-center">
-                          $38,735
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Doris Greene
-                        </td>
-                        <td>
-                          Malawi
-                        </td>
-                        <td>
-                          Feldkirchen in Kärnten
-                        </td>
-                        <td class="text-center">
-                          $63,542
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Mason Porter
-                        </td>
-                        <td>
-                          Chile
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-center">
-                          $78,615
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Jon Porter
-                        </td>
-                        <td>
-                          Portugal
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-center">
-                          $98,615
-                        </td>
-                      </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+
       </div>
       {% else %}
       <div style="justify-content: center; align-items: center; height:100vh; font-size:3vh; padding-top:20%; padding-left:10%;">

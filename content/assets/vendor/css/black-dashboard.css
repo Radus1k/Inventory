@@ -2062,6 +2062,7 @@ pre code {
 }
 
 .table-responsive {
+  margin-bottom: 5vh;
   display: block;
   width: 100%;
   overflow-x: auto;
@@ -2069,7 +2070,7 @@ pre code {
 }
 
 .table-responsive>.table-bordered {
-  border: 0;
+  border: 5;
 }
 
 .form-control {
@@ -12915,11 +12916,9 @@ fieldset[disabled] .navbar .navbar-nav>a.btn.active {
 .btn.btn-simple.active:hover,
 .btn.btn-simple.active:focus,
 .btn.btn-simple.active:active,
-.btn.btn-simple.active:not(:disabled):not(.disabled):active,
 .navbar .navbar-nav>a.btn.btn-simple.active:hover,
 .navbar .navbar-nav>a.btn.btn-simple.active:focus,
-.navbar .navbar-nav>a.btn.btn-simple.active:active,
-.navbar .navbar-nav>a.btn.btn-simple.active:not(:disabled):not(.disabled):active {
+.navbar .navbar-nav>a.btn.btn-simple.active:active {
   color: #ffffff;
   border-color: #344675;
   background-image: linear-gradient(to bottom left, #344675, #263148, #344675) !important;

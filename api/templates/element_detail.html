@@ -1,0 +1,28 @@
+{% block content %}
+
+{% load static %}
+
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<link href="{% static 'vendor/css/black-dashboard.css' %}" rel="stylesheet" />
+
+<div class="content" style=" text-align: center; margin-top:10%; font-size:2vh;">
+    <img src="{% static 'vendor/img/ready-stock.png' %}" style="width:10vh; margin:2vh;" alt="Description of the image">
+    <h1>Element Detail</h1>
+
+    <p>Name: {{ element.name }}</p>
+    <p>Room: {{ element.room.name }}</p>
+    <p>Floor: {{ element.room.floor.number }}</p>
+    <p>Building: {{ element.room.floor.building.name }}</p>
+    <p>Entity: {{ element.room.floor.building.entity.name }}</p>
+    <p>Inserted at: {{ element.inserted_at }}</p>
+    <p>QR Code: <br>
+        <img src="{{ element.qr_code_image.url }}" alt="QR Code" style="width:200px;">
+        <br>
+        <a href="{{ element.qr_code_image.url }}" download>Download here</a>
+    </p>
+</div>
+
+{% endblock %}

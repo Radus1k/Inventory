@@ -1,0 +1,56 @@
+.fab-container {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+  }
+  
+  .fab {
+    width: 70px;
+    height: 70px;
+    background-color: #03A9F4;
+    border-radius: 50%;
+    box-shadow: 0 6px 10px 0 #666;
+    transition: all 0.1s ease-in-out;
+    font-size: 24px;
+    color: white;
+    text-align: center;
+    line-height: 70px;
+  }
+  
+  .fab:hover {
+    box-shadow: 0 6px 14px 0 #666;
+    transform: scale(1.05);
+  }
+  
+  .fab-options {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .fab-options li {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    width: 250px;
+    background-color: #03A9F4;
+    border-radius: 50px;
+    margin-bottom: 10px;
+    color: white;
+    box-shadow: 0 6px 10px 0 #666;
+  }
+  
+  .fab-options li .fab-icon-holder {
+    margin-left: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: #33A8FF;
+    border-radius: 50%;
+    font-size: 24px;
+    text-align: center;
+    line-height: 50px;
+  }
+  
+  .fab-options li .fab-label {
+    line-height: 50px;
+  }

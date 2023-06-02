@@ -25,7 +25,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="{% static ' vendor/img/apple-icon.png' %}">
   <link rel="icon" type="image/png" href="{% static 'vendor/img/favicon.png' %}">
   <title>
-    Black Dashboard by Creative Tim
+    Inventory Management System
   </title>
 
   <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
@@ -54,50 +54,32 @@
         <ul class="nav">
           <li class="active">
             <a href="{% url 'dashboard' %}">
-              <i class="tim-icons icon-chart-pie-36"></i>
-              <p>Dashboard</p>
+              <i class="tim-icons icon-chart-pie-36" ></i>
+              <p style="font-size: 15px;">Dashboard</p>
             </a>
           </li>
           <li>
-            <a href="{% url 'data' %}">
+            <a href="{% url 'all_data' %}">
               <i class="tim-icons icon-atom"></i>
-              <p>Data</p>
-            </a>
-          </li>
-          <li>
-            <a href="./map.html">
-              <i class="tim-icons icon-pin"></i>
-              <p>Maps</p>
+              <p style="font-size: 15px;">Inventory Data</p>
             </a>
           </li>
           <li>
             <a href="./notifications.html">
               <i class="tim-icons icon-bell-55"></i>
-              <p>Notifications</p>
+              <p style="font-size: 15px;">Notifications</p>
             </a>
           </li>
           <li>
             <a href="./user.html">
               <i class="tim-icons icon-single-02"></i>
-              <p>User Profile</p>
+              <p style="font-size: 15px;">User Profile</p>
             </a>
           </li>
           <li>
             <a href="./tables.html">
               <i class="tim-icons icon-puzzle-10"></i>
-              <p>Table List</p>
-            </a>
-          </li>
-          <li>
-            <a href="./typography.html">
-              <i class="tim-icons icon-align-center"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li>
-            <a href="./rtl.html">
-              <i class="tim-icons icon-world"></i>
-              <p>Support</p>
+              <p style="font-size: 15px;">Table List</p>
             </a>
           </li>
         </ul>
@@ -170,7 +152,6 @@
         </nav>
 
 {% block content %}
-    
 {% endblock %}
 
 </div>
@@ -207,16 +188,14 @@
   <script src="{% static 'vendor/js/core/popper.min.js' %}"></script>
   <script src="{% static 'vendor/js/core/bootstrap.min.js' %}"></script>
   <script src="{% static 'vendor/js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
-  <!--  Google Maps Plugin    -->
-  <!-- Place this tag in your head or just before your close body tag. -->
-  {% comment %} <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> {% endcomment %}
+
   <!-- Chart JS -->
-  <script src="{% static 'vendor/js/plugins/chartjs.min.js' %}"></script>
+ <script src="{% static 'vendor/js/plugins/chartjs.min.js' %}"></script>
   <!--  Notifications Plugin    -->
   <script src="{% static 'vendor/js/plugins/bootstrap-notify.js' %}"></script>
   <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script src="{% static 'vendor/script.js' %}"></script>
-  <script src="{% static 'vendor/js/close_bootstrap_messages.js' %}"></script>
+  <script src="{% static 'vendor/js/close_bootstrap_messages.js' %}"></script> 
 
   
  
