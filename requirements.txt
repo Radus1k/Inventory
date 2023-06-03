@@ -1,0 +1,9 @@
+Django
+django-bootstrap-v5
+pandas
+pytz
+django_select2
+qrcode
+Pillow
+django_redis
+djangorestframework
