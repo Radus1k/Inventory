@@ -262,9 +262,18 @@
         <p>Looks like you dont have any Management Inventory Entity defined.</p>
         <p><a href="{% url 'add_entity' %}">Create a new one here</a></p>
       </div>
+      {% endif %} 
 
-        
-      {% endif %}       
+      <script src="{% static 'vendor/js/core/jquery.min.js' %}"></script>
+      <script src="{% static 'vendor/js/core/popper.min.js' %}"></script>
+      <script src="{% static 'vendor/js/core/bootstrap.min.js' %}"></script>
+      <script src="{% static 'vendor/js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
 
+      <script>
+        $(document).ready(function() {
+          // Javascript method's body can be found in assets/js/demos.js
+          demo.initDashboardPageCharts();
+        });
+      </script>
 
 {% endblock %}
