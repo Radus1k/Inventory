@@ -51,7 +51,7 @@ def all_data_view(request):
 
 
 @login_required
-def add_entity_view(request):
+def add_inv_entity_view(request):
     if request.method == 'POST':
         form = EntityForm(request.POST)
         if form.is_valid():
@@ -63,7 +63,7 @@ def add_entity_view(request):
             return redirect('add_building', entity_id=entity.id)
     else:
         form = EntityForm()
-    return render(request, 'inventory_app/CRUD/CREATE/add_entity.html', {'form': form})
+    return render(request, 'inventory_app/CRUD/CREATE/add_inv_entity.html', {'form': form})
 
 
 @login_required
@@ -91,7 +91,11 @@ def add_floor(request, entity_id):
         form = FloorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('add_floor', entity_id=entity_id)
+            messages.success(request, 'Floor added successfully.')
+        else:
+            messages.error(request, 'Error adding floor.')
+            form = FloorForm()
+        return redirect('add_floor', entity_id=entity_id)    
     else:
         form = FloorForm()
     form.fields['building'].queryset = Building.objects.filter(entity__id=entity_id) 

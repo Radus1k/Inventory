@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import add_entity_view, add_building, add_floor, add_room, add_element, dashboard_view,\
+from .views import add_inv_entity_view, add_building, add_floor, add_room, add_element, dashboard_view,\
                    data_view, delete_element_view, all_data_view, export_data_view
 from .crud_forms import RoomEditView, RoomDeleteView,  EntityDeleteView, EntityEditView, FloorEditView,\
                         FloorDeleteView, ElementEditView, ElementDeleteView, BuildingDeleteView, BuildingEditView
@@ -10,7 +10,7 @@ urlpatterns = [
     path('data/<int:entity_id>/', data_view, name='data'),
     path('data/', all_data_view, name='all_data'),
      path('export_data/<int:entity_id>/', export_data_view, name='export_data'),
-    path('add_entity/', add_entity_view, name='add_entity'),
+    path('add_inv_entity/', add_inv_entity_view, name='add_inv_entity'),
     path('add_building/<int:entity_id>/', add_building, name='add_building'),
     path('add_floor/<int:entity_id>/', add_floor, name='add_floor'),
     path('add_room/<int:entity_id>/', add_room, name='add_room'),

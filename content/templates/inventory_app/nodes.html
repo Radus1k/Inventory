@@ -1,0 +1,26 @@
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/nodes.css' %}">   
+
+<div class="gitgraph">
+    <div class="line"></div>
+    <div class="node {% if 'add_inv_entity' in request.path %}active{% endif %}">
+        <a href="{% url 'add_inv_entity' %}">Entity</a>
+    </div>
+    <div class="node {% if 'add_building' in request.path %}active{% endif %}">
+        <a href="{% url 'add_building' entity_id %}">Building</a>
+    </div>
+    <div class="node {% if 'add_floor' in request.path %}active{% endif %}">
+        <a href="{% url 'add_floor' entity_id %}">Floor</a>
+    </div>
+    <div class="node {% if 'add_room' in request.path %}active{% endif %}">
+        <a href="{% url 'add_room' entity_id %}">Room</a>
+    </div>
+    <div class="node {% if 'add_element' in request.path %}active{% endif %}">
+        <a href="{% url 'add_element' entity_id %}">Element</a>
+    </div>
+    <div class="end-line">
+        <a href="{% url 'all_data' %}">Inventory</a>
+    </div>
+</div>

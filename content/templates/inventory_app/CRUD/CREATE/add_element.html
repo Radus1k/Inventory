@@ -11,6 +11,8 @@
 
   <div class="content">
     {% bootstrap_messages %}
+    {% include 'inventory_app/nodes.html' %}
+
     <div class="col-12">
         <div class="card ">
           <div class="card-header">
@@ -21,8 +23,14 @@
               <form method="post">
                 {% csrf_token %}
                 {% bootstrap_form form %}
-                <button class="btn btn-primary" type="submit">Add Element</button>
+                <button class="btn btn-primary" style="position:absolute;" type="submit">Add Element</button>
               </form>
+              <div class="next" style="position:absolute; right:3vh; font-size:2vh;margin-top:2vh;">
+                <a href="{% url 'all_data' %}">
+                  View Data
+                  <img src="{% static 'vendor/img/arrow.png' %}" style="width:3vh;" alt="Description of the image">
+                </a>
+              </div>
             </div>
           </div>
         </div>

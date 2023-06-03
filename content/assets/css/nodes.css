@@ -1,0 +1,47 @@
+.gitgraph {
+    position: relative;
+    height: 4em;
+    margin-bottom: 2em;
+}
+
+.line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 2px solid #000;
+}
+
+.end-line {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    border-top: 2px solid #000;
+}
+
+
+.node {
+    position: relative;
+    color:white;
+    float: left;
+    width: 20%;
+    top: calc(50% - 1em);
+    height: 3em;
+    text-align: center;
+}
+
+.node:before {
+    content: "";
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    margin: -5px 0 0 -5px;
+    background: #000;
+    border-radius: 50%;
+}
+
+.node.active a {
+    color: yellow; /* or any color you prefer */
+}

@@ -9,7 +9,11 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% block content %}
 
+
   <div class="content">
+
+    {% include 'inventory_app/nodes.html' %}
+
     {% bootstrap_messages %}
     <div class="col-12">
         <div class="card ">
@@ -21,10 +25,14 @@
               <form method="post">
                 {% csrf_token %}
                 {% bootstrap_form form %}
-                <button class="btn btn-primary" type="submit">Add Building</button>
-                <a href="{% url 'add_floor' entity_id %}">
-                  <img src="{% static 'vendor/img/arrow.png' %}" style="width:3vh; position:absolute; right:3vh; bottom:vh;" alt="Description of the image">
+                <button class="btn btn-primary" type="submit" style="position:absolute;">Add Building</button>
+                <div class="next" style="position:absolute; right:3vh; font-size:2vh;margin-top:2vh;">
+                  <a href="{% url 'add_floor' entity_id %}">
+                    Add floors
+                    <img src="{% static 'vendor/img/arrow.png' %}" style="width:3vh;" alt="Description of the image">
                   </a>
+                </div>
+                
               </form>
            
             </div>

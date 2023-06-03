@@ -7,3 +7,4 @@ qrcode
 Pillow
 django_redis
 djangorestframework
+openpyxl
