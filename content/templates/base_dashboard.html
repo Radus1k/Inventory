@@ -59,11 +59,19 @@
             </a>
           </li>
           <li>
-            <a href="{% url 'all_data' %}">
-              <i class="tim-icons icon-atom"></i>
-              <p style="font-size: 15px;">Inventory Data</p>
+            <a data-toggle="collapse" href="#inventoryDataSubmenu">
+                <i class="tim-icons icon-atom"></i>
+                <p style="font-size: 15px;">Inventory Data</p>
             </a>
-          </li>
+            <div id="inventoryDataSubmenu" class="collapse">
+                <ul class="nav">
+                    <li><a href="{% url 'add_inv_entity' %}">Entities</a></li>
+                    <li><a href="{% url 'add_floor' entity_id %}">Floors</a></li>
+                    <li><a href="{% url 'add_building' entity_id %}">Buildings</a></li>
+                    <!-- Add more as needed -->
+                </ul>
+            </div>
+        </li>
           <li>
             <a href="./notifications.html">
               <i class="tim-icons icon-bell-55"></i>
