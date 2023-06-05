@@ -7,46 +7,63 @@ from .models import Entity
 
 ### Base Form Classes 
 class EntityForm(forms.ModelForm):
+    is_private = forms.BooleanField(required=False, label='Public', help_text='Check this box if you want the entity to be public. It will be private by default.')
+
     class Meta:
         model = Entity
-        fields = ['name']
+        fields = ['name', 'is_private', ]
         # Add other fields specific to the entity model
 
+    def __init__(self, *args, **kwargs):
+        super(EntityForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['is_private'].widget.attrs.update({'class': 'form-control'})        
+
 class BuildingForm(forms.ModelForm):
-  class Meta:
+    class Meta:
         model = Building
-        fields = ['name','description', 'entity']
+        fields = ['name','description', ]
         # Add other fields specific to the Building model
-        widgets = {
-            'entity': Select2Widget(attrs={
-                'class': 'form-control',
-                'style': 'background-color: #e14eca;'  # Example styling, modify as needed
-            }),
-        }
 
 class FloorForm(forms.ModelForm):
     class Meta:
         model = Floor
         fields = ['number','building']
-        # Add other fields specific to the Floor model
         widgets = {
             'building': Select2Widget(attrs={
                 'class': 'form-control',
                 'style': 'background-color: #e14eca;'  # Example styling, modify as needed
             }),
         }        
+        
+    def __init__(self, *args, **kwargs):
+        super(FloorForm, self).__init__(*args, **kwargs)
+        try:
+            last_building = Building.objects.latest('id')  # Replace 'id' with your DateTime field if you have one
+            self.fields['building'].initial = last_building
+        except Building.DoesNotExist:
+            pass
+
 
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
         fields = ['name', 'floor']
-        # Add other fields specific to the Room model
         widgets = {
             'floor': Select2Widget(attrs={
                 'class': 'form-control',
                 'style': 'background-color: #e14eca;'  # Example styling, modify as needed
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(RoomForm, self).__init__(*args, **kwargs)
+        try:
+            last_floor = Floor.objects.latest('id')  # Replace 'id' with your DateTime field if you have one
+            self.fields['floor'].initial = last_floor
+        except Floor.DoesNotExist:
+            pass
+
 
 class ElementForm(forms.ModelForm):
     class Meta:
@@ -58,7 +75,11 @@ class ElementForm(forms.ModelForm):
                 'style': 'width: 100%; background-color: #e14eca;'  # Example styling, modify as needed
             }),
         }
-
-
-
-
+    
+    def __init__(self, *args, **kwargs):
+        super(ElementForm, self).__init__(*args, **kwargs)
+        try:
+            last_room = Room.objects.latest('id')  # Replace 'id' with your DateTime field if you have one
+            self.fields['room'].initial = last_room
+        except Room.DoesNotExist:
+            pass

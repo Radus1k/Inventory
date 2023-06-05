@@ -60,34 +60,25 @@
           </li>
           <li>
             <a data-toggle="collapse" href="#inventoryDataSubmenu">
-                <i class="tim-icons icon-atom"></i>
-                <p style="font-size: 15px;">Inventory Data</p>
+                <i class="fa fa-list"></i>
+                <p style="font-size: 15px;">Inventory Entities</p>
             </a>
             <div id="inventoryDataSubmenu" class="collapse">
-                <ul class="nav">
-                    <li><a href="{% url 'add_inv_entity' %}">Entities</a></li>
-                    <li><a href="{% url 'add_floor' entity_id %}">Floors</a></li>
-                    <li><a href="{% url 'add_building' entity_id %}">Buildings</a></li>
-                    <!-- Add more as needed -->
-                </ul>
-            </div>
+              <ul class="nav" style="margin-left:2vh;">
+                  {% for entity in entities %}
+                      <li>
+                          <a href="{% url 'data' entity.id %}" style="font-size:13px;">
+                              {{ entity.name }}
+                          </a>
+                      </li>
+                  {% endfor %}
+              </ul>
+          </div>
         </li>
-          <li>
-            <a href="./notifications.html">
-              <i class="tim-icons icon-bell-55"></i>
-              <p style="font-size: 15px;">Notifications</p>
-            </a>
-          </li>
           <li>
             <a href="./user.html">
               <i class="tim-icons icon-single-02"></i>
               <p style="font-size: 15px;">User Profile</p>
-            </a>
-          </li>
-          <li>
-            <a href="./tables.html">
-              <i class="tim-icons icon-puzzle-10"></i>
-              <p style="font-size: 15px;">Table List</p>
             </a>
           </li>
         </ul>
@@ -106,7 +97,6 @@
                   <span class="navbar-toggler-bar bar3"></span>
                 </button>
               </div>
-              <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -190,6 +180,8 @@
   </ul>
 </div>
 </div>
+
+
 
   <!--   Core JS Files   -->
   <script src="{% static 'vendor/js/core/jquery.min.js' %}"></script>

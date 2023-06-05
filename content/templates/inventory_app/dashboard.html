@@ -231,7 +231,7 @@
                         <th>Entity</th>
                         <th>Building</th>
                         <th class="text-center">Room</th>
-                        <th class="text-center">See QR code</th>
+                        <th class="text-center">See QR code  {{ data }} </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -263,7 +263,7 @@
         <p><a href="{% url 'add_inv_entity' %}">Create a new one here</a></p>
       </div>
       {% endif %} 
-
+      
       <script src="{% static 'vendor/js/core/jquery.min.js' %}"></script>
       <script src="{% static 'vendor/js/core/popper.min.js' %}"></script>
       <script src="{% static 'vendor/js/core/bootstrap.min.js' %}"></script>
@@ -275,5 +275,6 @@
           demo.initDashboardPageCharts();
         });
       </script>
+
 
 {% endblock %}

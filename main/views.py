@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from .models import Entity, Building, Floor, Room, Element
 from .forms import EntityForm, BuildingForm, FloorForm, RoomForm, ElementForm
+from .crud_forms import ElementEditForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.db import models
 import pandas as pd
+from django.conf import settings
+from django.utils import timezone
 from django.http import HttpResponse
 from .utils import get_last_5_elements
 
@@ -17,10 +20,24 @@ def dashboard_view(request):
     last_5_elements = get_last_5_elements(request.user)
     elements = Element.objects.filter(room__floor__building__entity__in=user_entities)
     rooms = Room.objects.filter(floor__building__entity__in=user_entities)
-    # The queryset is not empty
+
+    # Charts data
+    now = timezone.now()
+    data = []
+    for i in range(12):
+        month = now.month - i
+        year = now.year
+        if month <= 0:
+            month += 12
+            year -= 1
+        count = elements.filter(inserted_at__year=year, inserted_at__month=month).count()
+        data.insert(0, count)  # We insert at the beginning to get the oldest month first
+
+    print(data);
+
     return render(request, 'inventory_app/dashboard.html', context={"is_any_entity": is_any_antity,
                                                                      'last_5_elements': last_5_elements, 'total_elements':elements.count(),
-                                                                     'total_rooms': rooms.count()})
+                                                                     'total_rooms': rooms.count(), 'element_data_by_month': data})
 
 
 @login_required
@@ -69,11 +86,14 @@ def add_inv_entity_view(request):
 @login_required
 def add_building(request, entity_id):
     buildings = Building.objects.filter(entity__id=entity_id)
+    entity= Entity.objects.get(id=entity_id)
     if request.method == 'POST':
         form = BuildingForm(request.POST)
         print("Form: ", form.errors)
         if form.is_valid():
-            form.save()
+            building = form.save(commit=False)
+            building.entity = entity
+            building.save()
             messages.success(request, 'Building added successfully.')
             return redirect('add_building', entity_id=entity_id)
         else:
@@ -81,7 +101,6 @@ def add_building(request, entity_id):
             form = BuildingForm()
     else:
         form = BuildingForm()
-    form.fields['entity'].queryset = Entity.objects.filter(users=request.user)    
     return render(request, 'inventory_app/CRUD/CREATE/add_building.html', {'form': form, 'buildings': buildings,  'entity_id': entity_id,})
 
 
@@ -135,11 +154,51 @@ def add_element(request, entity_id):
 
 
 @login_required
+def edit_element_view(request, element_id):
+    element = get_object_or_404(Element, pk=element_id)
+    if request.method == 'POST':
+        form = ElementEditForm(request.POST, instance=element)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Element updated successfully.')
+            return redirect('all_data')
+        else:
+            messages.error(request, 'Error updating element.')
+    else:
+        form = ElementEditForm(instance=element)
+
+    return render(request, 'inventory_app/CRUD/UPDATE/edit_element.html', {'form': form, 'element_id':element_id})
+
+@login_required
+def entity_settings_view(request, entity_id):
+    entity = get_object_or_404(Entity, id=entity_id)
+   
+    if request.method == 'POST':
+        form = EntityForm(request.POST, instance=entity)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Entity updated successfully.')
+            return redirect('entity_settings', entity_id)
+    else:
+        form = EntityForm(instance=entity)
+    
+    return render(request, 'inventory_app/entity_settings.html', {'form': form, 'entity_id': entity_id, 'entity':entity, 'SITE_URL': settings.SITE_URL}, )
+
+
+@login_required
 def delete_element_view(request, element_id):
     element = get_object_or_404(Element, pk=element_id)
     element.delete()
     messages.success(request, 'Element deleted successfully.')
     return redirect('data')  # Replace 'element_list' with the URL pattern name for your element list view
+
+
+@login_required
+def add_user_to_entity(request, share_link):
+    entity = get_object_or_404(Entity, share_link=share_link)
+    entity.users.add(request.user)
+    messages.success(request, 'You have been added to the entity.')
+    return redirect('data', entity_id=entity.id)
 
 
 def export_data_view(request, entity_id):
@@ -169,3 +228,4 @@ def export_data_view(request, entity_id):
     df.to_excel(response, index=False)
 
     return response
+

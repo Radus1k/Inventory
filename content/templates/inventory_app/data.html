@@ -8,30 +8,14 @@
 
 {% block content %}
 
+<link href="{% static 'vendor/css/black-dashboard.css' %}" rel="stylesheet" />
+<link href="{% static 'css/one_entity_data.css' %}" rel="stylesheet"/>
+
 <div class="content" style="margin-left:2%;">
-    {% bootstrap_messages %}
-
-    {% if all_entities %}
-    <div class="col-sm-6">
-        <div class="btn-group btn-group-toggle float-right">
-            {% for entity in all_entities %}
-            <a href="{% url 'data' entity.id %}">
-                <label class="btn btn-sm btn-primary btn-simple {% if entity.id == entity_with_most_elements.id  %} active {% endif %}
-                {% if entity.id == entity_id  %} active {% endif %}
-                    " id="{{ forloop.counter }}" style="pointer-events: auto;">
-                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" style="font-size:2vh;">{{ entity.name }}</span>
-                </label>
-             </a>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-
+   BOOTSTRRAP MESSAGE: {% bootstrap_messages %}
+   
 
     {% include 'inventory_app/one_entity_data.html' %}
 
-    {% comment %} <h4 class="card-title mt-4" style="color:white; padding-top:5vh;">
-        <a href="{% url 'add_inv_entity' %}" class="btn btn-primary">Add Entity</a>
-    </h4> {% endcomment %}
 
 {% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base_dashboard.html' %}
+
+{% block content %}
+
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+<link href="{% static 'css/entity_settings.css' %}" rel="stylesheet" />
+
+<body>
+<div class="content" style="background-color: #1e1e2f;">
+    <div class="settings" style="padding: 2vh; font-size: 2vh;">
+  
+      <h2 style="color: #e14eca;">Entity Settings</h2>
+  
+      <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </form>
+
+
+      <h2 style="color:white; padding-top:3vh;">Share entity </h2>
+      <div class="input-group mb-3" style="width: 25%; overflow: hidden; text-overflow: ellipsis; padding-top:1vh;">
+        <input type="text" class="form-control" id="shareLinkInput" value="{{ SITE_URL }}/add_user_to_entity/{{ entity.share_link }}/" style="font-size:12px; margin-right:2vh;">
+        <button class="btn btn-outline-secondary" type="button" id="copyButton" style="margin-bottom:2vh;">Copy</button>
+    </div>
+
+      <!-- Button for deleting the entity -->
+      <div class="entity_delete_settings">
+        <a href="{% url 'delete_entity' entity_id %}" class="btn btn-danger">Delete Entity</a>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+<script>
+  document.querySelector('#copyButton').addEventListener('click', function () {
+      var input = document.querySelector('#shareLinkInput');
+      input.select();
+      document.execCommand('copy');
+      alert('Share link copied to clipboard!');
+  });
+</script>
+
+{% endblock %}

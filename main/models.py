@@ -16,7 +16,14 @@ User = get_user_model()
 class Entity(models.Model):
     name = models.CharField(max_length=255)
     users = models.ManyToManyField(User)
-    # Add other fields specific to the entity
+    is_private = models.BooleanField(default=True)
+    share_link = models.CharField(max_length=255, unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.share_link:
+            # Generate a random unique string for the share link
+            self.share_link = get_random_string(length=32)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -80,10 +87,16 @@ class Room(models.Model):
         return "Room: " + self.name + " from floor: " + str(self.floor.number) + " from entity: " + self.floor.building.entity.name 
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class Element(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # new field for category
     name = models.CharField(max_length=255)
     qr_code = models.CharField(max_length=255, unique=True)  # QR code associated with the element
     qr_code_image = models.ImageField(upload_to='qr_codes/', blank=True)
@@ -115,4 +128,4 @@ class Element(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return "Element: " + self.name + " from room: " + self.room.name + " from entity: " + self.room.floor.building.entity.name
+        return f"Element: {self.name} from room: {self.room.name} from entity: {self.room.floor.building.entity.name} in category: {self.category.name if self.category else 'N/A'}"
