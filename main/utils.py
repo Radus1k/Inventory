@@ -1,7 +1,9 @@
 
 from django.db import models
+from django.db.models import Q
 from .models import Element, Entity, Building
 from django.utils import timezone
+from django_filters import FilterSet, CharFilter, NumberFilter
 
 
 def elements_count_per_month(user_entities):
@@ -50,10 +52,10 @@ def get_top_5_categories(user):
     user_entities = Entity.objects.filter(users__in=[user])
     
     # Get elements of these entities
-    elements = Element.objects.filter(room__floor__building__entity__in=user_entities)
+    elements = Element.objects.filter(Q(category__isnull=True) | Q(room__floor__building__entity__in=user_entities))
 
      # Group by category and count the elements
-    category_counts = elements.values('category__name').annotate(element_count=models.Count('id'))
+    category_counts = elements.exclude(category=None).values('category__name').annotate(element_count=models.Count('id'))
 
     # Exclude elements with count values of 0
     category_counts = category_counts.exclude(element_count=0)
@@ -95,4 +97,17 @@ def sum_verified_elements_access_count(user):
         category__isnull=False
     ).aggregate(sum_access_count=models.Sum('access_count'))['sum_access_count']
 
+    print("sum of elements verifies:", sum_access_count)
+
     return sum_access_count or 0
+
+class ElementFilter(FilterSet):
+    name = CharFilter(field_name='name', lookup_expr='icontains', label='Element Name')
+    category = CharFilter(field_name='category__name', lookup_expr='icontains', label='Category')
+    floor_number = NumberFilter(field_name='room__floor__number', label='Floor Number')
+    room_name = CharFilter(field_name='room__name', lookup_expr='icontains', label='Room Name')
+    building_name = CharFilter(field_name='room__floor__building__name', lookup_expr='icontains', label='Building Name')
+
+    class Meta:
+        model = Element
+        fields = []

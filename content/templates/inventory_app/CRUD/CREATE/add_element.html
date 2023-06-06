@@ -22,8 +22,13 @@
             <div class="table-responsive" style="overflow:auto;">
               <form method="post">
                 {% csrf_token %}
-                {% bootstrap_form form %}
-                <button class="btn btn-primary" style="position:absolute;" type="submit">Add Element</button>
+                {% bootstrap_form form %} 
+
+                <div class="help-text">
+                  Add a category <a href="{% url 'category_list' entity_id %}">here</a>.
+                </div>
+      
+                <button class="btn btn-primary" style="position:absolute; margin-top:3vh;" type="submit">Add Element</button>
               </form>
               <div class="next" style="position:absolute; right:3vh; font-size:2vh;margin-top:2vh;">
                 <a href="{% url 'all_data' %}">
@@ -38,6 +43,7 @@
           <thead>
             <tr>
               <th>Name</th>
+              <th>Category</th>
               <th>Room</th>
               <th>QR Code</th>
               <!-- Add more columns as needed -->
@@ -47,6 +53,7 @@
             {% for element in elements %}
             <tr>
               <td>{{ element.name }}</td>
+              <td>{{ element.category }}</td>
               <td>{{ element.room }}</td>
               <td> <img src="{{ element.qr_code_image.url }}" style="width: 50px;" alt="QR Code">
                 <br>

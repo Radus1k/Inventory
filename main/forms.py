@@ -1,5 +1,5 @@
 from django import forms
-from .models import Entity, Building, Floor, Room, Element
+from .models import Entity, Building, Floor, Room, Element, Category, Task
 from django_select2.forms import Select2Widget
 from django.views.generic import UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -66,9 +66,16 @@ class RoomForm(forms.ModelForm):
 
 
 class ElementForm(forms.ModelForm):
+    category = forms.ModelChoiceField(
+        required=False,
+        queryset=Category.objects.all(),
+        empty_label='Select a category (optional)',
+        label='Category: \t',
+    )
+      
     class Meta:
         model = Element
-        fields = ['name', 'room']
+        fields = ['name', 'room',]
         widgets = {
             'room': Select2Widget(attrs={
                 'class': 'form-control select2',
@@ -83,3 +90,28 @@ class ElementForm(forms.ModelForm):
             self.fields['room'].initial = last_room
         except Room.DoesNotExist:
             pass
+
+    def save(self, commit=True):
+        element = super().save(commit=False)
+        element.category = self.cleaned_data['category']
+        if commit:
+            element.save()
+        return element    
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
+        labels = {'name': 'Category Name'}
+        
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ['title', 'description', ]
+
+    def save(self, commit=True):
+        task = super().save(commit=False)
+        task.user = self.instance.user  # assuming 'user' is a field in your 'Task' model
+        if commit:
+            task.save()
+        return task 

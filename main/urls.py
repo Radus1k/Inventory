@@ -1,8 +1,6 @@
 from django.urls import path
-from .views import add_inv_entity_view, add_building, add_floor, add_room, add_element, dashboard_view,\
-                   data_view, delete_element_view, all_data_view, export_data_view, entity_settings_view, add_user_to_entity, edit_element_view
-from .crud_forms import RoomEditView, RoomDeleteView,  EntityDeleteView, EntityEditView, FloorEditView,\
-                        FloorDeleteView, ElementDeleteView, BuildingDeleteView, BuildingEditView
+from .views import *
+from .crud_forms import *
 
 urlpatterns = [
     path('', dashboard_view, name='dashboard'),
@@ -27,4 +25,8 @@ urlpatterns = [
     path('building/<int:pk>/edit/', BuildingEditView.as_view(), name='edit_building'),
     path('building/<int:pk>/delete/',BuildingDeleteView.as_view(), name='delete_building'),
     path('add_user_to_entity/<str:share_link>/', add_user_to_entity, name='add_user_to_entity'),
+    path('categories/<int:entity_id>/', category_list_view , name='category_list'),
+    path('add_task/', add_task_view , name='add_task'),
+    path('edit_task/<int:task_id>/', edit_task_view , name='edit_task'),
+    path('delete_task/<int:task_id>/', delete_task_view , name='delete_task'),
 ]

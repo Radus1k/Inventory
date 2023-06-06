@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect
-from .models import Entity, Building, Floor, Room, Element, Task
-from .forms import EntityForm, BuildingForm, FloorForm, RoomForm, ElementForm
+from .models import Entity, Building, Floor, Room, Element, Task, Category
+from .forms import EntityForm, BuildingForm, FloorForm, RoomForm, ElementForm, TaskForm
 from .crud_forms import ElementEditForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseForbidden
 from django.contrib import messages
 from django.db import models
+from .forms import CategoryForm
 import pandas as pd
 from django.conf import settings
 from django.http import HttpResponse
-from .utils import get_last_5_elements, get_top_buildings, get_top_5_categories, element_access_count_chart, sum_verified_elements_access_count, elements_count_per_month, get_total_elements
+from .utils import get_last_5_elements, get_top_buildings, get_top_5_categories, element_access_count_chart, sum_verified_elements_access_count, elements_count_per_month, get_total_elements, ElementFilter
 
 
 @login_required
@@ -49,8 +51,11 @@ def data_view(request, entity_id):
     floors = Floor.objects.filter(building__entity__id=entity_id)
     buildings = Building.objects.filter(entity__id=entity_id)
     entity = Entity.objects.get(id=entity_id)
-    return render(request, 'inventory_app/data.html', {'entity': entity, 'entity_id': entity.id, 'rooms':rooms, 'elements': elements,
-                                                       'buildings': buildings,'floors': floors, 'all_entities': entities},)
+
+    filter_set = ElementFilter(request.GET, queryset=elements)
+
+    return render(request, 'inventory_app/data.html', {'entity': entity, 'entity_id': entity.id, 'rooms':rooms, 'elements': filter_set.qs,
+                                                       'buildings': buildings,'floors': floors, 'all_entities': entities, 'filter': filter_set},)
 
 
 @login_required
@@ -155,6 +160,20 @@ def add_element(request, entity_id):
 
 
 @login_required
+def add_task_view(request):
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.instance.user = request.user  # set user here
+            form.save()
+            messages.success(request, 'Task added successfully.')
+            return redirect('add_task')
+    else:
+        form = TaskForm()
+    return render(request, 'inventory_app/CRUD/CREATE/add_task.html', {'form': form})
+
+
+@login_required
 def edit_element_view(request, element_id):
     element = get_object_or_404(Element, pk=element_id)
     if request.method == 'POST':
@@ -202,6 +221,25 @@ def add_user_to_entity(request, share_link):
     return redirect('data', entity_id=entity.id)
 
 
+def category_list_view(request, entity_id):
+    categories = Category.objects.all()
+    form = CategoryForm()
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Optionally add a success message or redirect to another page
+
+    context = {
+        'categories': categories,
+        'form': form,
+        'entity_id': entity_id,
+    }
+
+    return render(request, 'inventory_app/categories.html', context)
+
+
 def export_data_view(request, entity_id):
     import pytz
     entity = get_object_or_404(Entity, pk=entity_id)
@@ -229,4 +267,33 @@ def export_data_view(request, entity_id):
     df.to_excel(response, index=False)
 
     return response
+
+@login_required
+def edit_task_view(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    if task.user != request.user:
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Task updated successfully.')
+            return redirect('edit_task', task_id)
+    else:
+        form = TaskForm(instance=task)
+    return render(request, 'inventory_app/CRUD/UPDATE/edit_task.html', {'form': form})
+
+@login_required
+def delete_task_view(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    if task.user != request.user:
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        task.delete()
+        messages.success(request, 'Task deleted successfully.')
+        return redirect('dashboard')
+
+    return render(request, 'inventory_app/CRUD/DELETE/delete_task.html', {'task': task})
 

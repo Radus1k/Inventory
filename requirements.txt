@@ -8,3 +8,4 @@ Pillow
 django_redis
 djangorestframework
 openpyxl
+django-filter

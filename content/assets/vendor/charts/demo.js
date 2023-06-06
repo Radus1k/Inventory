@@ -349,7 +349,13 @@ demo = {
 
     // Entities
     
-    var ElementNames = access_count.map(b => b.name);
+    var ElementNames = access_count.map(b => {
+      var name = b.name.trim(); // Remove leading/trailing whitespace
+      var firstWord = name.split(' ')[0]; // Extract the first word
+      var truncatedName = name.substring(0, 10); // Extract the first 10 characters
+      return firstWord.length <= 10 ? firstWord : truncatedName;
+    });
+    
     var elementsCount = access_count.map(b => b.access_count);
     var maxAccessCount = Math.max(...elementsCount);
     var minAcesssCount = Math.min(...elementsCount);
