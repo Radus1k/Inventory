@@ -56,59 +56,56 @@
     </div>
 
     
-    <div class="table-responsive"  style="overflow:hidden; margin-top:10vh;">
-        <table class="table table-striped table-hover table-bordered">
-            <thead>
-                {% if elements %}
-                    <tr>
-                        <th style="width: 10%;">Element Name</th>
-                        <th style="width: 10%;">Category</th>
-                        <th style="width: 10%;">Floor</th>
-                        <th style="width: 15%;">Room</th>
-                        <th style="width: 15%;">Building</th>
-                        <th style="width: 20%;">QR Code</th>
-                    </tr>
-                {% endif %}
-            </thead>
-            <tbody>
-                {% for element in elements|dictsort:"name" %}
-                <tr>
-                    <td>{{ element.name }}</td>
-                    <td>{{ element.category }}</td>
-                    <td>{{ element.room.floor.number }}</td>
-                    <td>{{ element.room.name }}</td>
-                    <td>{{ element.room.floor.building.name }}</td>
-                    <td style="text-align: right;">
-                    <img src="{{ element.qr_code_image.url }}" style="width:5vh;" alt="QR Code">
-                    <br>
-                    <a href="{{ element.qr_code_image.url }}" download>Download here</a>
-                </td>
-                <td style="text-align: right;">
-                    <div class="p-1">
-                        <a href="{% url 'edit_element' element.id %}" style="margin-right: 5px;"><i class="fas fa-edit"></i></a>
-                        <a href="{% url 'delete_element' element.id %}"><i class="fas fa-trash-alt"></i></a>
-                    </div>
-                </td>
-                  
-                </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="5">No elements yet.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div style="display: flex; justify-content: center;">
-            <a href="{% url 'add_element' entity.id %}">
-                <i class="fas fa-plus-circle"></i> Add new element
-            </a>
+    <div class="table-responsive" style="overflow:hidden; margin-top:10vh;">
+        <h2 class="collapsible-heading" data-bs-toggle="collapse" data-bs-target="#element-table">
+            <a href="#" style="text-decoration: none;">Elements table. click to expand/collapse</a>
+        </h2>
+        <div id="element-table" class="collapse">
+            {% if elements %}
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">Element Name</th>
+                            <th style="width: 10%;">Category</th>
+                            <th style="width: 10%;">Floor</th>
+                            <th style="width: 15%;">Room</th>
+                            <th style="width: 15%;">Building</th>
+                            <th style="width: 20%;">QR Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for element in elements|dictsort:"name" %}
+                        <tr>
+                            <td>{{ element.name }}</td>
+                            <td>{{ element.category }}</td>
+                            <td>{{ element.room.floor.number }}</td>
+                            <td>{{ element.room.name }}</td>
+                            <td>{{ element.room.floor.building.name }}</td>
+                            <td style="text-align: right;">
+                                <img src="{{ element.qr_code_image.url }}" alt="QR Code" style="width:5vh;">
+                                <br>
+                                <a href="{{ element.qr_code_image.url }}" download>Download here</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No elements yet.</p>
+            {% endif %}
         </div>
     </div>
 
+
+
     <div class="table-responsive" style="overflow:hidden;">
-        <table class="table table-striped table-hover table-bordered">
-            <thead>
+        <h2 class="collapsible-heading" data-bs-toggle="collapse" data-bs-target="#room-table">
+            <a href="#" style="text-decoration: none;">Rooms table. click to expand/collapse</a>
+        </h2>
+        <div id="room-table" class="collapse">
+            <table class="table table-striped table-hover table-bordered">
                 {% if rooms %}
+                <thead>
                 <tr>
                     <th style="width: 10%;">Room Name</th>
                     <th style="width: 20%;">Floor</th>
@@ -148,9 +145,15 @@
             Add new room</a>
         </div>
     </div>
+    </div>
 
-  
-    <div class="table-responsive"  style="overflow:hidden;">
+    
+
+  <div class="table-responsive" style="overflow:hidden;">
+    <h2 class="collapsible-heading" data-bs-toggle="collapse" data-bs-target="#floor-table">
+        <a href="#" style="text-decoration: none;">Floors table. click to expand/collapse</a>
+    </h2>
+    <div id="floor-table" class="collapse">
         <table class="table table-striped table-hover table-bordered">
             <thead>
                 {% if floors %}
@@ -182,10 +185,15 @@
                 <a href="{% url 'add_floor' entity.id %}">
                     <i class="fas fa-plus-circle"></i>Add new floor</a>
         </div>
+     </div>
     </div>
 
-    <div class="table-responsive"  style="overflow:hidden;">
-        <table class="table table-striped table-hover table-bordered">
+    <div class="table-responsive" style="overflow:hidden;">
+        <h2 class="collapsible-heading" data-bs-toggle="collapse" data-bs-target="#building-table">
+            <a href="#" style="text-decoration: none;">Buildings table. click to expand/collapse</a>
+        </h2>
+        <div id="building-table" class="collapse">
+            <table class="table table-striped table-hover table-bordered">
             <thead>
                 {% if buildings %}
                 <tr>
@@ -214,9 +222,10 @@
         </table>
             <div style="display: flex; justify-content: center;">
                 <a href="{% url 'add_building' entity.id %}">
-                    <i class="fas fa-plus-circle"></i>Add new floor</a>
+                    <i class="fas fa-plus-circle"></i>Add new building</a>
             </div>
     </div>
+</div>
 
 </div>
 

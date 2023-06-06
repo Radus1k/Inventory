@@ -1,0 +1,168 @@
+[
+    {
+      "model": "main.entity",
+      "pk": 1,
+      "fields": {
+        "name": "Oracle",
+        "users": [1, 2],
+        "is_private": true,
+        "share_link": "h43sJwxyz5678"
+      }
+    },
+    {
+      "model": "main.entity",
+      "pk": 2,
+      "fields": {
+        "name": "Microsoft",
+        "users": [2, 3],
+        "is_private": false,
+        "share_link": "aBcDeFgH1234"
+      }
+    },
+    {
+      "model": "main.building",
+      "pk": 1,
+      "fields": {
+        "entity": 1,
+        "name": "Headquarters",
+        "description": "Main office building"
+      }
+    },
+    {
+      "model": "main.building",
+      "pk": 2,
+      "fields": {
+        "entity": 2,
+        "name": "Building A",
+        "description": "Office building"
+      }
+    },
+    {
+      "model": "main.floor",
+      "pk": 1,
+      "fields": {
+        "building": 1,
+        "number": 1
+      }
+    },
+    {
+      "model": "main.floor",
+      "pk": 2,
+      "fields": {
+        "building": 1,
+        "number": 2
+      }
+    },
+    {
+      "model": "main.floor",
+      "pk": 3,
+      "fields": {
+        "building": 2,
+        "number": 1
+      }
+    },
+    {
+      "model": "main.room",
+      "pk": 1,
+      "fields": {
+        "floor": 1,
+        "name": "Server Room",
+        "qr_code": "abcde12345"
+      }
+    },
+    {
+      "model": "main.room",
+      "pk": 2,
+      "fields": {
+        "floor": 2,
+        "name": "Conference Room",
+        "qr_code": "fghij67890"
+      }
+    },
+    {
+      "model": "main.room",
+      "pk": 3,
+      "fields": {
+        "floor": 3,
+        "name": "Office 101",
+        "qr_code": "klmno54321"
+      }
+    },
+    {
+      "model": "main.category",
+      "pk": 1,
+      "fields": {
+        "name": "Servers"
+      }
+    },
+    {
+      "model": "main.category",
+      "pk": 2,
+      "fields": {
+        "name": "Meeting Rooms"
+      }
+    },
+    {
+      "model": "main.element",
+      "pk": 1,
+      "fields": {
+        "room": 1,
+        "category": 1,
+        "name": "Oracle Exadata Server",
+        "qr_code": "qwerty09876",
+        "inserted_at": "2022-01-01T10:00:00Z",
+        "access_count": 10
+      }
+    },
+    {
+      "model": "main.element",
+      "pk": 2,
+      "fields": {
+        "room": 2,
+        "category": 2,
+        "name": "Conference Table",
+        "qr_code": "poiuy09876",
+        "inserted_at": "2022-02-01T10:00:00Z",
+        "access_count": 5
+        }
+        },
+        {
+        "model": "main.element",
+        "pk": 3,
+        "fields": {
+        "room": 3,
+        "category": null,
+        "name": "Desk",
+        "qr_code": "zxcvb12345",
+        "inserted_at": "2022-03-01T10:00:00Z",
+        "access_count": 3
+        }
+        },
+        {
+        "model": "main.task",
+        "pk": 1,
+        "fields": {
+        "user": 1,
+        "title": "Fix Network Issues",
+        "description": "Troubleshoot and resolve network connectivity problems."
+        }
+        },
+        {
+        "model": "main.task",
+        "pk": 2,
+        "fields": {
+        "user": 2,
+        "title": "Upgrade Server Software",
+        "description": "Perform software upgrades on the servers."
+        }
+        },
+        {
+        "model": "main.task",
+        "pk": 3,
+        "fields": {
+        "user": 3,
+        "title": "Install Security Cameras",
+        "description": "Install and configure security cameras in the building."
+        }
+        }
+        ]
