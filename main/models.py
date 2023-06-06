@@ -34,7 +34,7 @@ class Task(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return "task id :" + self.id + " " + self.title
+        return "task id :" +str(self.id) + " " + self.title
 
 class Building(models.Model):
     entity = models.ForeignKey(Entity, on_delete=models.CASCADE)
@@ -101,6 +101,7 @@ class Element(models.Model):
     qr_code = models.CharField(max_length=255, unique=True)  # QR code associated with the element
     qr_code_image = models.ImageField(upload_to='qr_codes/', blank=True)
     inserted_at = models.DateTimeField(default=timezone.now)
+    access_count = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         if not self.qr_code:
@@ -118,12 +119,10 @@ class Element(models.Model):
             qr_image = qr.make_image(fill="black", back_color="white")
             qr_image = qr_image.resize((200, 200), Image.ANTIALIAS)
 
-            # Create a BytesIO object to save the image
             qr_image_io = BytesIO()
             qr_image.save(qr_image_io, format='PNG')
             qr_image_io.seek(0)
 
-            # Set the QR code image field and save the element
             self.qr_code_image.save(f'{self.qr_code}.png', qr_image_io, save=False)
         super().save(*args, **kwargs)
 

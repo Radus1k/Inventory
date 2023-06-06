@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Entity, Building, Floor, Room, Element
+from .models import Entity, Building, Floor, Room, Element, Task
 from .forms import EntityForm, BuildingForm, FloorForm, RoomForm, ElementForm
 from .crud_forms import ElementEditForm
 from django.contrib.auth.decorators import login_required
@@ -8,9 +8,8 @@ from django.contrib import messages
 from django.db import models
 import pandas as pd
 from django.conf import settings
-from django.utils import timezone
 from django.http import HttpResponse
-from .utils import get_last_5_elements
+from .utils import get_last_5_elements, get_top_buildings, get_top_5_categories, element_access_count_chart, sum_verified_elements_access_count, elements_count_per_month, get_total_elements
 
 
 @login_required
@@ -18,26 +17,28 @@ def dashboard_view(request):
     user_entities = Entity.objects.filter(users=request.user)
     is_any_antity = user_entities.exists()
     last_5_elements = get_last_5_elements(request.user)
-    elements = Element.objects.filter(room__floor__building__entity__in=user_entities)
+
     rooms = Room.objects.filter(floor__building__entity__in=user_entities)
 
-    # Charts data
-    now = timezone.now()
-    data = []
-    for i in range(12):
-        month = now.month - i
-        year = now.year
-        if month <= 0:
-            month += 12
-            year -= 1
-        count = elements.filter(inserted_at__year=year, inserted_at__month=month).count()
-        data.insert(0, count)  # We insert at the beginning to get the oldest month first
+    total_elements = get_total_elements(request.user)
 
-    print(data);
+    elements_per_month = elements_count_per_month(user_entities=user_entities)
+
+    total_verified_elements = sum_verified_elements_access_count(request.user)
+
+    top_buildings = get_top_buildings(request.user)
+
+    top_elements_per_category = get_top_5_categories(request.user)
+
+    access_count = element_access_count_chart(request.user)
+
+    total_tasks = Task.objects.filter(user=request.user)
 
     return render(request, 'inventory_app/dashboard.html', context={"is_any_entity": is_any_antity,
-                                                                     'last_5_elements': last_5_elements, 'total_elements':elements.count(),
-                                                                     'total_rooms': rooms.count(), 'element_data_by_month': data})
+                                                                     'last_5_elements': last_5_elements, 'total_elements': total_elements, 'total_tasks': total_tasks,
+                                                                     'total_rooms': rooms.count(), 'element_data_by_month': elements_per_month, 'top_buildings': top_buildings,
+                                                                     'total_elements_per_category': top_elements_per_category, 'access_count': access_count,
+                                                                     'total_verified_elements': total_verified_elements})
 
 
 @login_required

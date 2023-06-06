@@ -20397,7 +20397,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .card-tasks {
-  height: 473px;
+  height: 94%;
 }
 
 .card-tasks .table-full-width {
@@ -20416,7 +20416,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .card-tasks .card-body i {
-  color: #9A9A9A;
+  color: #ba54f5;
   font-size: 1.4em;
 }
 
