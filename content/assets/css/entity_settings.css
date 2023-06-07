@@ -27,10 +27,16 @@
 
   .form-check-input[type=checkbox]{
     margin-top:1vh;
+    height: 1.5vh;
   }
 
+  .form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+
+}
+
   .entity_delete_settings {
-    position: fixed;
     bottom: 10vh;
     margin: 2vh;
   }

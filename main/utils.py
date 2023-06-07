@@ -3,6 +3,8 @@ from django.db import models
 from django.db.models import Q
 from .models import Element, Entity, Building
 from django.utils import timezone
+import datetime
+import json
 from django_filters import FilterSet, CharFilter, NumberFilter
 
 
@@ -10,7 +12,7 @@ def elements_count_per_month(user_entities):
     elements = Element.objects.filter(room__floor__building__entity__in=user_entities)
 
     now = timezone.now()
-    data = []
+    data = {}
     for i in range(12):
         month = now.month - i
         year = now.year
@@ -18,8 +20,11 @@ def elements_count_per_month(user_entities):
             month += 12
             year -= 1
         count = elements.filter(inserted_at__year=year, inserted_at__month=month).count()
-        data.insert(0, count)  # We insert at the beginning to get the oldest month first
-    return data
+        month_name = datetime.date(1900, month, 1).strftime('%b')  # This will give the month abbreviation.
+        data[f'{month_name}-{year}'] = count
+        
+    reversed_data = dict(reversed(list(data.items())))
+    return reversed_data
 
 def get_last_5_elements(user):
     entities = Entity.objects.filter(users=user)
@@ -96,8 +101,6 @@ def sum_verified_elements_access_count(user):
         access_count__gt=0,
         category__isnull=False
     ).aggregate(sum_access_count=models.Sum('access_count'))['sum_access_count']
-
-    print("sum of elements verifies:", sum_access_count)
 
     return sum_access_count or 0
 

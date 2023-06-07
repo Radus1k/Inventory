@@ -45,17 +45,19 @@ def dashboard_view(request):
 
 @login_required
 def data_view(request, entity_id):
-    entities = Entity.objects.filter(users=request.user)
+    user = request.user
+    entities = Entity.objects.filter(users=user)
     elements = Element.objects.filter(room__floor__building__entity__id=entity_id)
     rooms = Room.objects.filter(floor__building__entity__id=entity_id)
     floors = Floor.objects.filter(building__entity__id=entity_id)
     buildings = Building.objects.filter(entity__id=entity_id)
     entity = Entity.objects.get(id=entity_id)
-
+    is_owner_entity = entity.is_owner(user)
+    print("is owenr:", is_owner_entity)
     filter_set = ElementFilter(request.GET, queryset=elements)
 
-    return render(request, 'inventory_app/data.html', {'entity': entity, 'entity_id': entity.id, 'rooms':rooms, 'elements': filter_set.qs,
-                                                       'buildings': buildings,'floors': floors, 'all_entities': entities, 'filter': filter_set},)
+    return render(request, 'inventory_app/one_entity_data.html', {'entity': entity, 'entity_id': entity.id, 'rooms':rooms, 'elements': filter_set.qs,
+                                                       'buildings': buildings,'floors': floors, 'all_entities': entities, 'filter': filter_set, 'is_owner_entity': is_owner_entity},)
 
 
 @login_required
@@ -79,6 +81,7 @@ def add_inv_entity_view(request):
         form = EntityForm(request.POST)
         if form.is_valid():
             entity = form.save(commit=False)
+            entity.owner = request.user
             entity.save()
             entity.users.add(request.user)
             entity.save()
@@ -192,7 +195,7 @@ def edit_element_view(request, element_id):
 @login_required
 def entity_settings_view(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
-   
+    is_owner_entity = entity.is_owner(request.user)
     if request.method == 'POST':
         form = EntityForm(request.POST, instance=entity)
         if form.is_valid():
@@ -202,7 +205,7 @@ def entity_settings_view(request, entity_id):
     else:
         form = EntityForm(instance=entity)
     
-    return render(request, 'inventory_app/entity_settings.html', {'form': form, 'entity_id': entity_id, 'entity':entity, 'SITE_URL': settings.SITE_URL}, )
+    return render(request, 'inventory_app/entity_settings.html', {'form': form, 'entity_id': entity_id, 'entity':entity, 'SITE_URL': settings.SITE_URL, 'is_owner_entity': is_owner_entity}, )
 
 
 @login_required

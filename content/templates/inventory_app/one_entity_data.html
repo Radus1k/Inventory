@@ -1,3 +1,5 @@
+{% extends 'inventory_app/data.html' %}
+
 {% block render_one_entity %}
 
 {% load static %}
@@ -8,58 +10,7 @@
 
 <link href="{% static 'vendor/css/black-dashboard.css' %}" rel="stylesheet" />
 <link href="{% static 'css/one_entity_data.css' %}" rel="stylesheet"/>
-
-
-    <style>
-    .entity_name {
-        font-size: 40px;
-        float: left;
-        color: var(--primary);
-        font-weight: bold; 
-    }
-    
-    .entity_status {
-        font-size: 14px;
-        color: grey;
-        border: 1px solid grey;
-        padding: 2px 4px;
-        margin: 2px;
-        float: left;
-    }
-    </style>
-
-    
-    <div class="entity-header" style="display: flex; justify-content: space-between; align-items: center;">
-
         
-        <div class="entity_name_status"> 
-            <span class="entity_name">{{ entity.name }} &nbsp; </span>
-            {% if entity.is_private %}
-                <span class="entity_status">Private</span>
-            {% else %}
-                <span class="entity_status">Public</span>
-            {% endif %}
-        </div>
-    
-        <div class="add_ent" style="padding-right:10vh; font-size:20px;">
-            <a href="{% url 'add_inv_entity'  %}">
-                <i class="fas fa-plus-circle"></i> Add new entity
-            </a>
-        </div>
-
-    </div>
-    
-    <div style="padding-top: 10vh; font-size:1vh; display:flex; justify-content:flex-start; align-items:center; width: 100%;"> 
-        <a href="{% url 'entity_settings' entity.id %}" style="font-size:20px; ">
-            Entity Settings <i class="fas fa-cog"></i> 
-        </a>
-        <a href="{% url 'export_data' entity.id %}" style="font-size:20px; margin-left:20px;">
-            Export Entity Data <i class="fas fa-download" ></i> 
-        </a>
-    </div>
-    <hr style="border-top: 1px solid grey;">
-    
-    
 
     <div class="table-responsive" style="overflow:hidden; margin-top:5vh;">
 
@@ -92,7 +43,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary form-control;" style="margin-top:2vh; width:80%; ">Apply Filter</button>
+                    <button type="submit" class="btn btn-primary form-control;" style="margin-top: 1vh; width:80%; ">Apply Filter</button>
                 </div>
             </div>
         </form>

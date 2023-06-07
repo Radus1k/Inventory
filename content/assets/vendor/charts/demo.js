@@ -437,11 +437,13 @@ demo = {
       options: gradientChartOptionsConfigurationWithTooltipGreen
     });
 
+    var validJson = elem_by_months.replace(/'/g, '"');
+  
+    var elem_by_months_obj = JSON.parse(validJson);
+    var chart_labels = Object.keys(elem_by_months_obj);
+    var chart_data = Object.values(elem_by_months_obj);
+    var maxElem = Math.max(...chart_data);
 
-
-    var chart_labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-    var elem_by_months_obj = JSON.parse(elem_by_months);
-    var maxElem = Math.max(...elem_by_months_obj);
 
     var ctx = document.getElementById("chartBig1").getContext('2d');
 
@@ -469,7 +471,7 @@ demo = {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
-          data: elem_by_months_obj,
+          data: chart_data,
         }]
       },
       options: gradientChartOptionsConfigurationWithTooltipPurple

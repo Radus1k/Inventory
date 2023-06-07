@@ -1,0 +1,23 @@
+{% extends 'inventory_app/data.html' %}
+
+{% load static %}
+
+{% block all_entity_users %}
+<link href="{% static 'css/data.css' %}" rel="stylesheet" />
+
+<body>
+  
+    <div style="font-size:20px; margin-top:7vh;">
+    <h2 style="color:gray; margin-bottom:1vh;"> Entity Manager(s)</h2>
+    <hr style="border-top: 1px solid grey;">
+    {% for usr in users %}
+      <div style="display:block; padding:2vh;">
+         <a href="{% url 'user' usr.id %}"> <i class="fas fa-user"> {{ usr.username }}</i> </a> {% if entity.owner == usr %}   <span class="entity_status" style="float:inherit;">Owner</span> {% endif %}
+      </div>
+    {% endfor %}
+    </div>
+    
+  </div>
+</body>
+
+{% endblock %}

@@ -17,6 +17,7 @@ class Entity(models.Model):
     name = models.CharField(max_length=255)
     users = models.ManyToManyField(User)
     is_private = models.BooleanField(default=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_entities')
     share_link = models.CharField(max_length=255, unique=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -25,8 +26,17 @@ class Entity(models.Model):
             self.share_link = get_random_string(length=32)
         super().save(*args, **kwargs)
 
+    def is_owner(self, user):
+        return self.owner == user
+
+    def can_edit(self, user):
+        return self.is_owner(user)
+
+    def can_delete(self, user):
+        return self.is_owner(user)
+
     def __str__(self):
-        return self.name
+        return self.name 
 
 class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

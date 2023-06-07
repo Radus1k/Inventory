@@ -1,0 +1,28 @@
+{% extends 'base_dashboard.html' %}
+
+{% load static %}
+
+{% block content %}
+<body>
+  <div class="content">
+    <div class="row">
+      <!-- User basic info card -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="title">User Profile</h5>
+          </div>
+          <div class="card-body">
+            <h5>{{ user.username }}</h5>
+            <p>{{ user.email }}</p>
+            <p>{{ user.first_name }} {{ user.last_name }}</p>
+
+            <h5  style="padding-top:3vh" class="title">User Details</h5>
+            <p><strong>Company:</strong> {{ user.company }}</p>
+            <p><strong>Address:</strong> {{ user.address }}</p>
+          </div>
+        </div>
+      </div>
+  </div>
+</body>
+{% endblock %}

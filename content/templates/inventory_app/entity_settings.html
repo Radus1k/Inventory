@@ -1,6 +1,6 @@
-{% extends 'base_dashboard.html' %}
+{% extends 'inventory_app/data.html' %}
 
-{% block content %}
+{% block entity_settings %}
 
 {% load static %}
 {% load bootstrap5 %}
@@ -8,13 +8,12 @@
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
 
+<link href="{% static 'vendor/css/black-dashboard.css' %}" rel="stylesheet" />
 <link href="{% static 'css/entity_settings.css' %}" rel="stylesheet" />
 
 <body>
-<div class="content" style="background-color: #1e1e2f;">
-    <div class="settings" style="padding: 2vh; font-size: 2vh;">
-  
-      <h2 style="color: #e14eca;">Entity Settings</h2>
+<div class="content" style="background-color: #1e1e2f; height:70vh;">
+    <div class="settings" style="font-size: 2vh;">
   
       <form method="POST">
         {% csrf_token %}
@@ -22,14 +21,12 @@
         <button type="submit" class="btn btn-primary">Save changes</button>
       </form>
 
-
       <h2 style="color:white; padding-top:7vh;">Share entity </h2>
       <div class="input-group mb-3" style="width: 25%; overflow: hidden; text-overflow: ellipsis; padding-top:1vh;">
         <input type="text" class="form-control" id="shareLinkInput" value="{{ SITE_URL }}/add_user_to_entity/{{ entity.share_link }}/" style="font-size:12px; margin-right:2vh;">
-        <button class="btn btn-outline-secondary" type="button" id="copyButton" style="margin-bottom:2vh;">Copy</button>
+        <button class="btn btn-outline-secondary" type="button" id="copyButton" style="margin:0;">Copy</button>
     </div>
 
-      <!-- Button for deleting the entity -->
       <div class="entity_delete_settings">
         <a href="{% url 'delete_entity' entity_id %}" class="btn btn-danger">Delete Entity</a>
       </div>

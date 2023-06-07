@@ -1,0 +1,100 @@
+{% extends 'base_dashboard.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% load bootstrap5 %}
+{% bootstrap_messages %}
+
+<body>
+      <div class="content">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="title">Edit Profile</h5>
+              </div>
+              <div class="card-body">
+                <form method="POST">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-5 pr-md-1">
+                      <div class="form-group">
+                        <label>Company (disabled)</label>
+                        {{ form.company_name }}
+                      </div>
+                    </div>
+                    <div class="col-md-3 px-md-1">
+                      <div class="form-group">
+                        <label>Username</label>
+                        {{ form.username }}
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-md-1">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        {{ form.email }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 pr-md-1">
+                      <div class="form-group">
+                        <label>First Name</label>
+                        {{ form.first_name }}
+                      </div>
+                    </div>
+                    <div class="col-md-6 pl-md-1">
+                      <div class="form-group">
+                        <label>Last Name</label>
+                        {{ form.last_name }}
+                      </div>
+                    </div>
+                    <div class="col-md-6 pl-md-1" style="margin-left:1vh;">
+                      <div class="form-group">
+                        <label> Phone number</label>
+                        {{ form.phone_number }}
+                      </div>
+                    </div>
+                  </div>
+                  <!-- continue with other form fields -->
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-fill btn-primary">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="fixed-plugin">
+    <div class="dropdown show-dropdown">
+      <a href="#" data-toggle="dropdown">
+        <i class="fa fa-cog fa-2x"> </i>
+      </a>
+      <ul class="dropdown-menu">
+        <li class="header-title"> Sidebar Background</li>
+        <li class="adjustments-line">
+          <a href="javascript:void(0)" class="switch-trigger background-color">
+            <div class="badge-colors text-center">
+              <span class="badge filter badge-primary active" data-color="primary"></span>
+              <span class="badge filter badge-info" data-color="blue"></span>
+              <span class="badge filter badge-success" data-color="green"></span>
+            </div>
+            <div class="clearfix"></div>
+          </a>
+        </li>
+        <li class="adjustments-line text-center color-change">
+          <span class="color-label">LIGHT MODE</span>
+          <span class="badge light-badge mr-2"></span>
+          <span class="badge dark-badge ml-2"></span>
+          <span class="color-label">DARK MODE</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+
+{% endblock %}
