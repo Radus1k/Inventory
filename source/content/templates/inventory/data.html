@@ -1,0 +1,66 @@
+{% extends 'base_dashboard.html' %}
+
+{% load static %}
+
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+{% block content %}
+
+<link href="{% static 'vendor/css/black-dashboard.css' %}" rel="stylesheet" />
+<link href="{% static 'css/one_entity_data.css' %}" rel="stylesheet"/>
+<link href="{% static 'css/data.css' %}" rel="stylesheet"/>
+
+<div class="content" style="margin-left:2%;">
+
+        <div class="entity-header" style="display: flex; justify-content: space-between; align-items: center;">
+        {% bootstrap_messages %}
+            
+            <div class="entity_name_status"> 
+                <span class="entity_name">{{ entity.name }} &nbsp; </span>
+                {% if entity.is_private %}
+                    <span class="entity_status">Private</span>
+                {% else %}
+                    <span class="entity_status">Public</span>
+                {% endif %}
+            </div>
+        
+            <div class="add_ent" style="padding-right:10vh; font-size:20px;">
+                <a href="{% url 'add_entity'  %}">
+                    <i class="fas fa-plus-circle"></i> Add new entity
+                </a>
+            </div>
+        </div>
+        
+        <div style="padding-top: 10vh; font-size:1vh; display:flex; justify-content:flex-start; align-items:center; width: 100%;"> 
+            <a href="{% url 'data' entity.id %}" style="font-size:20px;" {% if 'data' in request.path %}class="active"{% endif %}>
+                Data <i class="fas fa-database"></i> 
+            </a>
+            {% if is_entity_owner %}
+            <a href="{% url 'entity_settings' entity.id %}" style="font-size:20px; margin-left:5vh;" {% if 'entity_settings' in request.path %}class="active"{% endif %}>
+                Entity Settings <i class="fas fa-cog"></i> 
+            </a>
+            {% endif %}
+            <a href="{% url 'users_entity' entity.id %}" style="font-size:20px;margin-left:5vh;" {% if 'entity/' in request.path %}class="active"{% endif %}>
+                Entity Managers <i class="fas fa-user"></i> 
+            </a>
+            <a href="{% url 'export_data' entity.id %}" style="font-size:20px; margin-left:5vh;" {% if 'export_data' in request.path %}class="active"{% endif %}>
+                Export Entity Data <i class="fas fa-download" ></i> 
+            </a>
+        </div>
+
+        <hr style="border-top: 1px solid grey;">
+
+
+   
+    {% block render_one_entity %}
+    {% endblock %}
+
+    {% block entity_settings %}
+    {% endblock %}
+
+    {% block all_entity_users %}
+    {% endblock %}
+
+{% endblock %}

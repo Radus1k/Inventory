@@ -1,0 +1,24 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+{% comment %} <link rel="stylesheet" href="{% static 'vendor/bootstrap-5.0.2/bootstrap-5.0.2-dist/css/bootstrap.min.css' %}">
+<script src="{% static 'vendor/bootstrap-5.0.2/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script> {% endcomment %}
+<div class="content">
+<div class="d-flex justify-content-center align-items-center text-center" style="min-height: 100vh; background-color:#1e1e2f;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="text-center">
+            <img src="{% static 'vendor/img/ready-stock.png' %}" style="width:100px;" alt="Description of the image">
+            <h4 class="card-title mt-4" style="color:white;">Inventory Management</h4>
+        </div>
+        <div class="card-body">
+            <h4 class="card-title" style="color:white;">Login</h4>
+            {% bootstrap_form form %}
+            <button class="btn btn-primary btn-block" style="background-color: #e14eca;" type="submit">Login</button>
+            <p class="text-white text-center mt-3 mb-0">Don't have an account? <a href="{% url 'signup' %}" >Sign Up here</a></p>
+        </div>
+    </form>
+</div>
+</div>

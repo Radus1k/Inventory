@@ -1,0 +1,78 @@
+{% extends 'base_dashboard.html' %}
+
+{% load static %}
+
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% block content %}
+
+  <div class="content">
+    {% bootstrap_messages %}
+    {% include 'inventory/entity/nodes.html' %}
+
+    <div class="col-12">
+        <div class="card ">
+          <div class="card-header">
+            <h4 class="card-title">Element</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" style="overflow:auto;">
+              <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %} 
+
+                <div class="help-text">
+                  Add a category <a href="{% url 'category_list' entity_id %}">here</a>.
+                </div>
+      
+                <button class="btn btn-primary" style="position:absolute; margin-top:1vh;" type="submit">Add Element</button>
+              </form>
+              <div class="next" style="position:absolute; right:3vh; font-size:2vh;margin-top:2vh;">
+                <a href="{% url 'data' entity_id %}">
+                  View Data
+                  <img src="{% static 'vendor/img/arrow.png' %}" style="width:3vh;" alt="Description of the image">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Room</th>
+              <th>QR Code</th>
+              <!-- Add more columns as needed -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for element in elements %}
+            <tr>
+              <td>{{ element.name }}</td>
+              <td>{{ element.category }}</td>
+              <td>{{ element.room }}</td>
+              <td> <img src="{{ element.qr_code_image.url }}" style="width: 50px;" alt="QR Code">
+                <br>
+              <a href="{{ element.qr_code_image.url }}" download>Download here</a>
+              </td>
+                
+              <!-- Populate additional columns as required -->
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="2">No elements found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

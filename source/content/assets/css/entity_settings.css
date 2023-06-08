@@ -1,0 +1,46 @@
+.small {
+    font-size: 25px;
+  }
+
+  .form-check .form-check-label{
+      color:grey;
+      font-size:25px;
+  }
+
+  .mb-3{
+    padding-top:3vh;
+  }
+
+  .form-control{
+    width:21%;
+  }
+
+  .form-check-input {
+    width: 1.5vh;
+  }
+  
+  .form-label{
+    color:grey;
+    margin-top:2vh;
+    font-size:20px;
+  }
+
+  .form-check-input[type=checkbox]{
+    margin-top:1vh;
+    height: 1.5vh;
+  }
+
+  .form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+
+}
+
+  .entity_delete_settings {
+    bottom: 10vh;
+    margin: 2vh;
+  }
+
+.body {
+    background-color: #1e1e2f;
+}

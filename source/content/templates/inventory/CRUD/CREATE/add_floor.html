@@ -1,0 +1,69 @@
+{% extends 'base_dashboard.html' %}
+
+{% load static %}
+
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+
+{% block content %}
+
+  <div class="content">
+    {% bootstrap_messages %}
+    
+    {% include 'inventory/entity/nodes.html' %}
+    <div class="col-12">
+        <div class="card ">
+          <div class="card-header">
+            <h4 class="card-title">Floor</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" style="overflow:auto;">
+              <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+            <h4 class="card-title">Floor</h4>
+             <button class="btn btn-primary" type="submit" style="position:absolute;">Add Floor</button>
+             <div class="next" style="position:absolute; right:3vh; font-size:2vh;margin-top:2vh;">
+              <a href="{% url 'add_room' entity_id %}">
+                Add rooms
+                <img src="{% static 'vendor/img/arrow.png' %}" style="width:3vh;" alt="Description of the image">
+              </a>
+            </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Building</th>
+              <!-- Add more columns as needed -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for floor in floors %}
+            <tr>
+              <td>{{ floor.number }}</td>
+              <td>{{ floor.description }}</td>
+              <td>{{ floor.building }}</td>
+              <!-- Populate additional columns as required -->
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="2">No Floors found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

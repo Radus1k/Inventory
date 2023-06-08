@@ -1,0 +1,38 @@
+{% extends 'inventory/data.html' %}
+
+{% load static %}
+
+{% block all_entity_users %}
+<link href="{% static 'css/data.css' %}" rel="stylesheet" />
+
+<body>
+  
+    <div style="font-size:20px; margin-top:7vh;">
+    <h2 style="color:gray; margin-bottom:1vh;"> Entity Manager(s)</h2>
+    <hr style="border-top: 1px solid grey;">
+    {% for usr in users %}
+      <div style="display:block; padding:2vh;">
+         <a href="{% url 'user' usr.id %}"> <i class="fas fa-user"> {{ usr.username }}</i> </a> {% if entity.owner == usr %}   <span class="entity_status" style="float:inherit;">Owner</span> {% endif %}
+      </div>
+    {% endfor %}
+    
+    {% if is_entity_owner %}
+    <hr style="border-top: 1px solid grey;">
+    <h2 style="margin-top:5vh; color:grey;">Pending Requests</h2>
+    {% for req in requests %}
+      <div>
+        Request from <a href="{% url 'user' req.user.id %}">{{ req.user.username }}</a> at {{ req.timestamp }}
+        <a href="{% url 'accept_request' req.id %}"><i class="fas fa-check" ></i> Accept</a>
+         <a style="margin-left:3vh;" href="{% url 'deny_request' req.id %}"><i class="fas fa-times"></i> Deny</a>
+      </div>
+    {% empty %}
+      <p style="color:gray;"> No requests yet </p>
+    {% endfor %}
+    {% endif %}
+    
+    </div>
+    
+  </div>
+</body>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base_dashboard.html' %}
+
+{% load static %}
+
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% block content %}
+
+
+  <div class="content">
+
+    {% include 'inventory/entity/nodes.html' %}
+
+    {% bootstrap_messages %}
+    <div class="col-12">
+        <div class="card ">
+          <div class="card-header">
+            <h4 class="card-title">Building</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" style="overflow:auto;">
+              <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button class="btn btn-primary" type="submit" style="position:absolute;">Add Building</button>
+                <div class="next" style="position:absolute; right:3vh; font-size:2vh;margin-top:2vh;">
+                  <a href="{% url 'add_floor' entity_id %}">
+                    Add floors
+                    <img src="{% static 'vendor/img/arrow.png' %}" style="width:3vh;" alt="Description of the image">
+                  </a>
+                </div>
+                
+              </form>
+           
+            </div>
+          </div>
+        </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Entity</th>
+                <!-- Add more columns as needed -->
+              </tr>
+            </thead>
+            <tbody>
+              {% for building in buildings %}
+              <tr>
+                <td>{{ building.name }}</td>
+                <td>{{ building.description }}</td>
+                <td>{{ building.entity }}</td>
+                <!-- Populate additional columns as required -->
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="2">No buildings found.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
