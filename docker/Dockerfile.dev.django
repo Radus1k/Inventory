@@ -1,0 +1,13 @@
+FROM python:3.8.10-slim
+
+WORKDIR /usr/src/app/source/
+
+COPY source/ /usr/src/app/source/
+
+COPY docker/entrypoint_dev_django.sh /usr/src/app/entrypoint_dev_django.sh
+
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+ENTRYPOINT ["/usr/src/app/entrypoint_dev_django.sh"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]

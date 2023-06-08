@@ -1,0 +1,17 @@
+FROM python:3.8.10-slim
+
+WORKDIR /usr/src/app
+
+# Copy project files
+COPY source/ /usr/src/app/
+
+# Copy entrypoint script to container
+COPY docker/entrypoint_celery.sh ./entrypoint_celery.sh
+# RUN chmod +x source/entrypoint_celery.sh
+
+# # Solve Python dependencies
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# Run entrypoint script
+ENTRYPOINT ["./entrypoint_celery.sh"]

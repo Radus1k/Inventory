@@ -1,0 +1,9 @@
+FROM redis:6.2-alpine
+
+WORKDIR /usr/src/redis
+
+COPY config/redis.conf .
+COPY docker/entrypoint_redis.sh .
+
+# CMD redis-server ./redis.conf --loglevel debug
+ENTRYPOINT ["./entrypoint_redis.sh"]

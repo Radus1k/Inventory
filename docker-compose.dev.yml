@@ -1,0 +1,111 @@
+version: '3.3'
+
+volumes:
+  pgdata:
+  pgadmin:
+
+
+services:
+  django_dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev.django
+    ports:
+      - "0.0.0.0:8000:8000"
+    volumes:
+      - ./source:/usr/src/app/source
+      - /tmp:/tmp
+    hostname: django_dev
+    environment:
+      - PRODUCTION=false
+      - RUN_DOCKERIZED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - celery_beat
+      - celery_worker
+    container_name: django_dev  
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.celery
+    command: celery -A inventory.celery beat
+    hostname: celery_beat
+    container_name: celery_beat
+    environment:
+      - RUN_DOCKERIZED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+    depends_on:
+      - celery_worker
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.celery
+    command: celery -A inventory.celery worker
+    hostname: celery_worker
+    container_name: celery_worker
+    environment:
+      - RUN_DOCKERIZED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - redis
+      - db_postgres
+
+  redis:
+    tty: true
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /tmp:/tmp
+    hostname: redis
+    container_name: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
+    restart: on-failure
+
+  db_pgadmin:
+    image: dpage/pgadmin4
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "127.0.0.1:8001:80"
+    container_name: db_pgadmin
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+    depends_on:
+      - db_postgres
+    
+  db_postgres:
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - /tmp:/tmp
+    environment:
+      - TZ=Europe/Bucharest
+      - PGTZ=Europe/Bucharest
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    hostname: db_postgres
+    container_name: db_postgres

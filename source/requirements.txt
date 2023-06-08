@@ -9,3 +9,6 @@ django_redis
 djangorestframework
 openpyxl
 django-filter
+celery
+redis
+psycopg2-binary
