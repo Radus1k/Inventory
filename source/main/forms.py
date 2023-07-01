@@ -11,13 +11,15 @@ class EntityForm(forms.ModelForm):
 
     class Meta:
         model = Entity
-        fields = ['name', 'is_private', ]
+        fields = ['name', 'is_private', 'latitude', 'longitude']
         # Add other fields specific to the entity model
 
     def __init__(self, *args, **kwargs):
         super(EntityForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
-        self.fields['is_private'].widget.attrs.update({'class': 'form-control'})        
+        self.fields['is_private'].widget.attrs.update({'class': 'form-control'})
+        self.fields['latitude'].label = 'Latitude (Optional)'
+        self.fields['longitude'].label = 'Longitude (Optional)'        
 
 class BuildingForm(forms.ModelForm):
     class Meta:

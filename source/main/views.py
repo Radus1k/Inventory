@@ -168,3 +168,14 @@ def deny_request_view(request, request_id):
 
     messages.success(request, f'Request from {user.username} has been denied.')
     return redirect('users_entity', entity_id=entity.id)
+
+def map_view(request, entity_id):
+    entity = get_object_or_404(Entity, id=entity_id)
+    context = {
+        'latitude': entity.latitude,
+        'longitude': entity.longitude,
+        'entity': entity,
+    }
+    return render(request, 'inventory/entity/map.html', context)
+
+    

@@ -19,6 +19,8 @@ class Entity(models.Model):
     is_private = models.BooleanField(default=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_entities')
     share_link = models.CharField(max_length=255, unique=True, blank=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.share_link:

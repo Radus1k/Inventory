@@ -3,10 +3,28 @@ version: '3.3'
 volumes:
   pgdata:
   pgadmin:
-
+  osm-data:
+    external: true
 
 services:
-  django_dev:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.nginx
+    volumes:
+      - ./source/content:/usr/src/app/content
+    ports:
+      # TODO: '127.0.0.1' -> [Production IP]
+      - "80:80"
+    # extra_hosts:
+
+    hostname: nginx
+    container_name: nginx
+    restart: on-failure
+    depends_on:
+      - django
+
+  django:
     build:
       context: .
       dockerfile: docker/Dockerfile.dev.django
@@ -15,21 +33,22 @@ services:
     volumes:
       - ./source:/usr/src/app/source
       - /tmp:/tmp
-    hostname: django_dev
+    hostname: django
     environment:
       - PRODUCTION=false
       - RUN_DOCKERIZED=1
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=db_postgres
-      - POSTGRES_PORT=5432
+      - POSTGRES_NAME
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+      - POSTGRES_PORT
+      - IS_PRODUCTION=1
     depends_on:
       - celery_beat
       - celery_worker
-    container_name: django_dev  
+    container_name: django 
 
   celery_beat:
     build:
@@ -42,12 +61,11 @@ services:
       - RUN_DOCKERIZED=1
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=db_postgres
-      - POSTGRES_PORT=5432
-
+      - POSTGRES_NAME
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+      - POSTGRES_PORT
     depends_on:
       - celery_worker
 
@@ -62,11 +80,11 @@ services:
       - RUN_DOCKERIZED=1
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=db_postgres
-      - POSTGRES_PORT=5432
+      - POSTGRES_NAME
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+      - POSTGRES_PORT
     depends_on:
       - redis
       - db_postgres
@@ -95,12 +113,11 @@ services:
       - "127.0.0.1:8001:80"
     container_name: db_pgadmin
     environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=postgres
-      - POSTGRES_HOST=db_postgres
-      - POSTGRES_PORT=5432
+      - POSTGRES_NAME
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+      - POSTGRES_PORT
     depends_on:
       - db_postgres
     
@@ -112,10 +129,18 @@ services:
     environment:
       - TZ=Europe/Bucharest
       - PGTZ=Europe/Bucharest
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=db_postgres
-      - POSTGRES_PORT=5432
+      - POSTGRES_NAME
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+      - POSTGRES_PORT
     hostname: db_postgres
     container_name: db_postgres
+
+  tileserver:
+    image: overv/openstreetmap-tile-server
+    volumes:
+      - osm-data:/data/database
+    ports:
+      - 8080:80
+    command: run 

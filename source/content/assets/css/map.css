@@ -1,0 +1,12 @@
+.map-container {
+    display: flex;
+    justify-content: right;
+    align-items: flex-start;
+    height: 70vh;
+}
+
+.map {
+    height: 70vh;
+    width: 70vw;
+    flex: 1;
+}

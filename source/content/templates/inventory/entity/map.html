@@ -1,0 +1,29 @@
+{% extends 'inventory/data.html' %}
+
+{% block map %}
+
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+
+<head>
+    <link href="{% static 'vendor/css/black-dashboard.css' %}" rel="stylesheet" />
+    <script src="{% static 'vendor/openlayers/dist/ol.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'vendor/openlayers/css/ol.css' %}">
+    <link href="{% static 'css/map.css' %}"  rel="stylesheet">
+  </head>
+  
+  <body>
+    <div class="map-container">
+      <div id="map" class="map" data-greenmarker="{% static 'markers/green.svg' %}" data-long="{{ longitude }}", data-lat="{{ latitude }}">
+      </div> 
+    </div>
+  </body>
+  
+  <script src="{% static 'js/map.js' %}" ></script>
+
+
+{% endblock %}

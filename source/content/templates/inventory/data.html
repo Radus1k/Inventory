@@ -48,6 +48,9 @@
             <a href="{% url 'export_data' entity.id %}" style="font-size:20px; margin-left:5vh;" {% if 'export_data' in request.path %}class="active"{% endif %}>
                 Export Entity Data <i class="fas fa-download" ></i> 
             </a>
+            <a href="{% url 'location' entity.id %}" style="font-size:20px; margin-left:5vh;" {% if 'location' in request.path %}class="active"{% endif %}>
+                Location <i class="fas fa-map-marker" ></i> 
+            </a>
         </div>
 
         <hr style="border-top: 1px solid grey;">
@@ -61,6 +64,9 @@
     {% endblock %}
 
     {% block all_entity_users %}
+    {% endblock %}
+
+    {% block map %}
     {% endblock %}
 
 {% endblock %}

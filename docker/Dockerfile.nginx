@@ -1,0 +1,20 @@
+FROM nginx:latest
+
+# Set working directory for media & static files
+WORKDIR /usr/src/app
+
+# Create & populate content folder in the working directory
+COPY source/ .
+
+# TODO: Uncomment if we will be using certificates, 
+#       since deployment will be in an airgap network
+# COPY cert/ cert/
+
+# Deal with config files
+RUN rm /etc/nginx/conf.d/default.conf
+COPY config/nginxinventory.conf /etc/nginx/conf.d
+# COPY config/uwsgi_params /etc/nginx/conf.d/uwsgi_params
+
+# Expose necessary ports
+EXPOSE 80
+EXPOSE 443
