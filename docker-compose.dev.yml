@@ -3,7 +3,8 @@ version: '3.3'
 volumes:
   pgdata:
   pgadmin:
-
+  osm-data:
+    external: true
 
 services:
   django_dev:
@@ -119,6 +120,14 @@ services:
       - POSTGRES_PORT=5432
     hostname: db_postgres
     container_name: db_postgres
+
+  tileserver:
+    image: overv/openstreetmap-tile-server
+    volumes:
+      - osm-data:/data/database
+    ports:
+      - 8080:80
+    command: run 
 
   test_email_server:
     image: mailhog/mailhog
