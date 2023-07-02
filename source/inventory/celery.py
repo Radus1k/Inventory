@@ -18,7 +18,7 @@ class CeleryConfig:
     timezone = 'Europe/Bucharest'
     broker_url = CELERY_RESULT_BACKEND
     backend_url = CELERY_RESULT_BACKEND
-    imports = ('main.tasks',)
+    imports = ('accounts.mails',)
 
 
 app = Celery(namespace='inventory')

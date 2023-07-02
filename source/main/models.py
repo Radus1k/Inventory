@@ -83,7 +83,7 @@ class Room(models.Model):
             qr.add_data(full_url)
             qr.make(fit=True)
             qr_image = qr.make_image(fill="black", back_color="white")
-            qr_image = qr_image.resize((200, 200), Image.ANTIALIAS)
+            qr_image = qr_image.resize((200, 200))
 
             # Create a BytesIO object to save the image
             qr_image_io = BytesIO()
@@ -108,6 +108,7 @@ class Category(models.Model):
 
 class Element(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # new field for category
     name = models.CharField(max_length=255)
     qr_code = models.CharField(max_length=255, unique=True)  # QR code associated with the element
@@ -129,7 +130,7 @@ class Element(models.Model):
             qr.add_data(full_url)
             qr.make(fit=True)
             qr_image = qr.make_image(fill="black", back_color="white")
-            qr_image = qr_image.resize((200, 200), Image.ANTIALIAS)
+            qr_image = qr_image.resize((200, 200))
 
             qr_image_io = BytesIO()
             qr_image.save(qr_image_io, format='PNG')

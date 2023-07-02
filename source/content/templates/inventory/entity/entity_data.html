@@ -61,6 +61,7 @@
                 <thead>
                     <tr>
                         <th style="width: 10%;">Element Name</th>
+                        <th style="width: 10%;">Cantity</th>
                         <th style="width: 10%;">Category</th>
                         <th style="width: 10%;">Floor</th>
                         <th style="width: 15%;">Room</th>
@@ -73,6 +74,7 @@
                     {% for element in elements|dictsort:"name" %}
                     <tr>
                         <td><a href="{% url 'element_detail' element.qr_code %}">{{ element.name }}</a></td>
+                        <td>{{ element.cantity|default:"-" }}</td>
                         <td>{{ element.category|default:"-" }}</td>
                         <td>{{ element.room.floor.number }}</td>
                         <td>{{ element.room.name }}</td>

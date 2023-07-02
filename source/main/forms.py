@@ -81,7 +81,7 @@ class ElementForm(forms.ModelForm):
       
     class Meta:
         model = Element
-        fields = ['name', 'room',]
+        fields = ['name', 'room','quantity']
         widgets = {
             'room': Select2Widget(attrs={
                 'class': 'form-control select2',

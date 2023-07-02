@@ -119,3 +119,11 @@ services:
       - POSTGRES_PORT=5432
     hostname: db_postgres
     container_name: db_postgres
+
+  test_email_server:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    depends_on:
+    - django_dev

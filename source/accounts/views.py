@@ -8,6 +8,7 @@ from django.http import HttpResponseForbidden
 from .forms import SignUpForm, UserForm
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from .mails import send_created_account_mail
 User = get_user_model()
 
 def signup_view(request):
@@ -19,6 +20,7 @@ def signup_view(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
+            send_created_account_mail(user)
             return redirect('dashboard')
     else:
         form = SignUpForm()
