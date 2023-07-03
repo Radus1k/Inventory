@@ -11,8 +11,10 @@
 
 <head>
     <link href="{% static 'vendor/css/black-dashboard.css' %}" rel="stylesheet" />
-    <script src="{% static 'vendor/openlayers/dist/ol.js' %}"></script>
+    {% comment %} <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script> {% endcomment %}
     <link rel="stylesheet" href="{% static 'vendor/openlayers/css/ol.css' %}">
+    <script src="{% static 'vendor/openlayers/dist/ol.js' %}"></script>
+
     <link href="{% static 'css/map.css' %}"  rel="stylesheet">
   </head>
   

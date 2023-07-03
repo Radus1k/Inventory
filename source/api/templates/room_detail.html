@@ -33,6 +33,8 @@
                   {% if elements %}
                   <tr>
                       <th>Element Name</th>
+                      <th>Quantity</th>
+                      <th>Category</th>
                       <th>QR Code</th>
                       <th> </th>
                   </tr>
@@ -42,6 +44,8 @@
                   {% for element in elements %}
                   <tr>
                       <td>{{ element.name }}</td>
+                      <td>{{ element.quantity }}</td>
+                      <td>{{ element.category }}</td>
                       <td>
                           <img src="{{ element.qr_code_image.url }}" alt="QR Code">
                           <br>
